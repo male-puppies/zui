@@ -538,6 +538,9 @@ fieldset[disabled] .btn-zx.active {
 .icon-question-sign {
 	color: #398de3;
 }
+.tooltip.bottom {
+	margin-top: 8px;
+}
 .showlock {
 	cursor: pointer !important;
 }

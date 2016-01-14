@@ -51,6 +51,9 @@
 			</div>
 			<form class="form-horizontal">
 				<div class="form-group clearfix">
+					<label class="col-md-2 col-sm-3 col-xs-4" style="font-size:20px;">基本配置</label>
+				</div>
+				<div class="form-group clearfix">
 					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="lan0__ipaddr">IP地址</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
 						<input type="text" id="lan0__ipaddr" class="form-control" verify="ip" />
@@ -60,6 +63,55 @@
 					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="lan0__netmask">子网掩码</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
 						<input type="text" id="lan0__netmask" class="form-control" verify="ip" />
+					</div>
+				</div>
+				
+				<div class="form-group clearfix">
+					<label class="col-md-2 col-sm-3 col-xs-4" style="font-size:20px;">DHCP配置</label>
+				</div>
+				<div class="form-group clearfix">
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="lan0__dhcp_enable">启用DHCP</label>
+					<div class="col-md-3 col-sm-4 col-xs-5">
+						<div class="checkbox">
+							<label><input type="checkbox" id="lan0__dhcp_enable" class="denable" value="1 0" checked /></label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group clearfix">
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan0__start">起始分配基址</label>
+					<div class="col-md-3 col-sm-4 col-xs-5">
+						<input type="text" id="dhcp__lan0__start" class="form-control dhcp_enable" verify="num" />
+					</div>
+					<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+						<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字。"><i class="icon-question-sign"></i></span>
+					</div>
+				</div>
+				<div class="form-group clearfix">
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan0__limit">客户数</label>
+					<div class="col-md-3 col-sm-4 col-xs-5">
+						<input type="text" id="dhcp__lan0__limit" class="form-control dhcp_enable" verify="num" />
+					</div>
+					<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+						<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字。"><i class="icon-question-sign"></i></span>
+					</div>
+				</div>
+				<div class="form-group clearfix">
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan0__leasetime">租用时间</label>
+					<div class="col-md-3 col-sm-4 col-xs-5">
+						<input type="text" id="dhcp__lan0__leasetime" class="form-control dhcp_enable" verify="num 1 65535" />
+					</div>
+					<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+						<span class="units">小时</span>
+						<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~65535。"><i class="icon-question-sign"></i></span>
+					</div>
+				</div>
+				<div class="form-group clearfix">
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan0__dhcp_option">DNS</label>
+					<div class="col-md-3 col-sm-4 col-xs-5">
+						<input type="text" id="dhcp__lan0__dhcp_option" class="form-control dhcp_enable" verify="dns" />
+					</div>
+					<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+						<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入IP地址，以英文逗号分隔。如：8.8.8.8,114.114.114.114。"><i class="icon-question-sign"></i></span>
 					</div>
 				</div>
 			</form>
@@ -76,6 +128,9 @@
 						<span class="title"><i class="icon-align-justify"></i> LAN1<b></b></span>
 					</div>
 					<form class="form-horizontal">
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4" style="font-size:20px;">基本配置</label>
+						</div>
 						<div class="form-group clearfix">
 							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="lan1__enable">启用</label>
 							<div class="col-md-3 col-sm-4 col-xs-5">
@@ -96,6 +151,55 @@
 								<input type="text" id="lan1__netmask" class="form-control" verify="ip" />
 							</div>
 						</div>
+						
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4" style="font-size:20px;">DHCP配置</label>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="lan1__dhcp_enable">启用DHCP</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<div class="checkbox">
+									<label><input type="checkbox" id="lan1__dhcp_enable" class="denable" value="1 0" checked /></label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan1__start">起始分配基址</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<input type="text" id="dhcp__lan1__start" class="form-control dhcp_enable" verify="num" />
+							</div>
+							<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan1__limit">客户数</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<input type="text" id="dhcp__lan1__limit" class="form-control dhcp_enable" verify="num" />
+							</div>
+							<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan1__leasetime">租用时间</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<input type="text" id="dhcp__lan1__leasetime" class="form-control dhcp_enable" verify="num 1 65535" />
+							</div>
+							<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+								<span class="units">小时</span>
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~65535。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan1__dhcp_option">DNS</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<input type="text" id="dhcp__lan1__dhcp_option" class="form-control dhcp_enable" verify="dns" />
+							</div>
+							<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入IP地址，以英文逗号分隔。如：8.8.8.8,114.114.114.114。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
 					</form>
 				</div>
 				
@@ -104,6 +208,9 @@
 						<span class="title"><i class="icon-align-justify"></i> LAN2<b></b></span>
 					</div>
 					<form class="form-horizontal">
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4" style="font-size:20px;">基本配置</label>
+						</div>
 						<div class="form-group clearfix">
 							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="lan2__enable">启用</label>
 							<div class="col-md-3 col-sm-4 col-xs-5">
@@ -124,6 +231,55 @@
 								<input type="text" id="lan2__netmask" class="form-control" verify="ip" />
 							</div>
 						</div>
+						
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4" style="font-size:20px;">DHCP配置</label>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="lan2__dhcp_enable">启用DHCP</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<div class="checkbox">
+									<label><input type="checkbox" id="lan2__dhcp_enable" class="denable" value="1 0" checked /></label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan2__start">起始分配基址</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<input type="text" id="dhcp__lan2__start" class="form-control dhcp_enable" verify="num" />
+							</div>
+							<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan2__limit">客户数</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<input type="text" id="dhcp__lan2__limit" class="form-control dhcp_enable" verify="num" />
+							</div>
+							<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan2__leasetime">租用时间</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<input type="text" id="dhcp__lan2__leasetime" class="form-control dhcp_enable" verify="num 1 65535" />
+							</div>
+							<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+								<span class="units">小时</span>
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~65535。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan2__dhcp_option">DNS</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<input type="text" id="dhcp__lan2__dhcp_option" class="form-control dhcp_enable" verify="dns" />
+							</div>
+							<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入IP地址，以英文逗号分隔。如：8.8.8.8,114.114.114.114。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
 					</form>
 				</div>
 				
@@ -132,6 +288,9 @@
 						<span class="title"><i class="icon-align-justify"></i> LAN3<b></b></span>
 					</div>
 					<form class="form-horizontal">
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4" style="font-size:20px;">基本配置</label>
+						</div>
 						<div class="form-group clearfix">
 							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="lan3__enable">启用</label>
 							<div class="col-md-3 col-sm-4 col-xs-5">
@@ -150,6 +309,55 @@
 							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="lan3__netmask">子网掩码</label>
 							<div class="col-md-3 col-sm-4 col-xs-5">
 								<input type="text" id="lan3__netmask" class="form-control" verify="ip" />
+							</div>
+						</div>
+						
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4" style="font-size:20px;">DHCP配置</label>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="lan3__dhcp_enable">启用DHCP</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<div class="checkbox">
+									<label><input type="checkbox" id="lan3__dhcp_enable" class="denable" value="1 0" checked /></label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan3__start">起始分配基址</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<input type="text" id="dhcp__lan3__start" class="form-control dhcp_enable" verify="num" />
+							</div>
+							<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan3__limit">客户数</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<input type="text" id="dhcp__lan3__limit" class="form-control dhcp_enable" verify="num" />
+							</div>
+							<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan3__leasetime">租用时间</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<input type="text" id="dhcp__lan3__leasetime" class="form-control dhcp_enable" verify="num 1 65535" />
+							</div>
+							<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+								<span class="units">小时</span>
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~65535。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="dhcp__lan3__dhcp_option">DNS</label>
+							<div class="col-md-3 col-sm-4 col-xs-5">
+								<input type="text" id="dhcp__lan3__dhcp_option" class="form-control dhcp_enable" verify="dns" />
+							</div>
+							<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入IP地址，以英文逗号分隔。如：8.8.8.8,114.114.114.114。"><i class="icon-question-sign"></i></span>
 							</div>
 						</div>
 					</form>
