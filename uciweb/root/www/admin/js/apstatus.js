@@ -190,7 +190,7 @@ function createDtNaps() {
 	return $("#table_naps").dataTable({
 		"pagingType": "full_numbers",
 		"order": [[3, 'desc']],
-		"language": {"url": '/luci-static/resources/js/black/dataTables.chinese.json'},
+		"language": {"url": '../../js/black/dataTables.chinese.json'},
 		"columns": [
 			{
 				"data": "apid",

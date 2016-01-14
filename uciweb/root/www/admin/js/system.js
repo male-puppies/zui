@@ -86,7 +86,7 @@ function OnSubmit() {
 	ucicall("SetSystem", obj, function(d) {
 		if (d.status == 0) {
 			cgicall("DebugSwitch", debug_switch, function(d) {})
-			// cgicall("DebugSwitch", g_ledctrl, function(d) {})
+			cgicall("DebugSwitch", g_ledctrl, function(d) {})
 			initData();
 			createModalTips("保存成功！");
 		} else {
