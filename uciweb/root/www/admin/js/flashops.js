@@ -96,6 +96,8 @@ function initEvents() {
 	$(".upload").on("click", OnUpload);
 	$(".reset").on("click", OnReset);
 	$(".brush").on("click", OnBrush);
+	
+	$('[data-toggle="tooltip"]').tooltip();
 }
 
 function OnDownload() {
