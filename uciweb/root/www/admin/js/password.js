@@ -1,5 +1,6 @@
 
 $(function() {
+	verifyEventsInit();
 	initEvents();
 	createInitModal();
 });
@@ -22,6 +23,7 @@ function initEvents() {
 }
 
 function OnSubmit() {
+	if (!verification()) return;
 	var obj,
 		opwd = $("#opwd").val(),
 		pwd = $("#pwd").val(),

@@ -69,13 +69,25 @@ function setInterface(d) {
 		for (var k in d[i]) {
 			if (typeof d[i][k] != "object") {
 				if (d[i]["link"] == false) {
-					$("." + i + " .zone").css("background-position", "0 0");
+					$("." + i + " .zone-big").css("background-position", "0 0");
 				} else {
-					$("." + i + " .zone").css("background-position", "0 -39px");
+					$("." + i + " .zone-big").css("background-position", "0 -39px");
 				}
 
 				if (k == "uptime") {
-					$("." + i + " ." + k + " span").html(arrive_timer_format(d[i][k]))
+					$("." + i + " ." + k + " span").html(arrive_timer_format(d[i][k]));
+				} else if (k == "speed") {
+					if (d[i]["link"] == true) {
+						$("." + i + " span." + k).html(d[i][k] + "Mbps");
+					}
+				} else if (k == "duplex") {
+					if (d[i]["link"] == true) {
+						var dup = " 全双工";
+						if (d[i][k] == "false") {
+							dup = " 半双工";
+						}
+						$("." + i + " span." + k).html(dup);
+					}
 				} else {
 					$("." + i + " ." + k + " span").html(d[i][k]);
 				}

@@ -142,7 +142,6 @@ function OnSubmit() {
 			if (dquery.is(":checked")) {
 				for (var key in g_getdhcp) {
 					var value = $("#dhcp__lan" + j + "__" + key).val();
-					console.log(value)
 					if (typeof value != "undefined" && value != "") {
 						if (key == "dhcp_option") {
 							dtmp[key] = "6," + $("#dhcp__lan" + j + "__" + key).val();
@@ -160,8 +159,6 @@ function OnSubmit() {
 			obj["dhcp"]["lan" + j] = dtmp;
 		}
 	}
-	
-	console.log(obj)
 
 	$("#modal_spin").modal("show");
 	ucicall("SetLanconfig", obj, function(d) {

@@ -199,9 +199,9 @@
 			message:"非法格式。只能包含中文、数字、字母、‘-’、‘.’ 和下划线，不允许空格。长度范围4~32个字符，不超过10个中文。"				
 		},
 		"pwd": {
-			method: function(val){
-				var re = /^[0-9a-zA-Z_]{4,32}$/i;
-				return val.match(re)!=null;
+			method: function(val) {
+				var reg = /^[0-9a-zA-Z_]{4,32}$/;
+				return (reg.test(val)) ? true : false;
 			},
 			message: "非法格式。只能包含数字、字母和下划线。长度范围4~32个字符。"
 		},

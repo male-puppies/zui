@@ -39,7 +39,7 @@ function funcall() {
 		ucicall("GetSystem", function(d) {
 			setTimeout(function() {
 				window.location.href = "/admin/login/admin_login/login.html";
-			}, 3000);
+			}, 6000);
 		});
 	}, 5000);
 }
@@ -82,12 +82,15 @@ function DoBrush() {
 }
 
 function DoReset() {
+	$("#modal_tips").modal("hide");
+	$("#modal_tips").one("hidden.bs.modal", function() {
+		$("#modal_spin .modal-body p").html("正在还原配置并重启设备！<br>请稍候...");
+		$("#modal_spin").modal("show");
+	});
+
 	ucicall("ConfReset", function(d) {
-		$("#modal_tips").modal("hide");
-		$("#modal_tips").one("hidden.bs.modal", function() {
-			$("#modal_spin .modal-body p").html("正在还原配置并重启设备！<br>请稍候...");
-			$("#modal_spin").modal("show");
-		});
+		$.cookie('md5psw', '', {expires: -1, path: "/"});
+		setTimeout(funcall, 12000);
 	});
 }
 
@@ -117,8 +120,8 @@ function OnUpload() {
 		type: "post",						//form提交的方式(method:post/get)
 		dataType: "json",					//服务器返回数据类型
 		clearForm: false,					//提交成功后是否清空表单中的字段值
-		restForm: false,						//提交成功后是否重置表单中的字段值，即恢复到页面加载时的状态
-		timeout: 10000,						//设置请求时间，超过该时间后，自动退出请求，单位(毫秒)。　
+		restForm: false,					//提交成功后是否重置表单中的字段值，即恢复到页面加载时的状态
+		timeout: 30000,						//设置请求时间，超过该时间后，自动退出请求，单位(毫秒)。　
 		beforeSubmit: function(d) {},		//提交前执行的回调函数
 		success: function(d) {upFunc(d)}	//提交成功后执行的回调函数
 	};
@@ -142,7 +145,7 @@ function OnBrush() {
 		dataType: "json",
 		clearForm: false,
 		restForm: false,
-		timeout: 10000,
+		timeout: 30000,
 		beforeSubmit: function(d) {},
 		success: function(d) {brushFunc(d)}
 	};
@@ -152,34 +155,3 @@ function OnBrush() {
 	$("#brush").ajaxSubmit(options);
 	return false;
 }
-
-
-
-// function OnUpload() {
-	// if (!verification("#backup")) return false;
-	// createModalTips("上传备份以恢复配置将会重启设备。</br>是否确认上传？", "DoUpload");
-	// return false;
-// }
-
-// function trycall(d) {
-	// if (d.status == 0) {
-		// $.cookie('md5psw', '', {expires: -1, path: "/"});
-		// $("#modal_spin .modal-body p").html("上传成功！正在重启设备！<br>请稍候...");
-		// $("#modal_spin").modal("show");
-		// setTimeout(funcall, 12000);
-	// } else {
-		// if (typeof d.data != "undefined" && d.data == "login") {
-			// window.location.href = "/admin/login/admin_login/login.html";
-		// } else {
-			// $("#modal_spin").modal("hide");
-			// $("#modal_spin").one("hidden.bs.modal", function() {
-				// createModalTips("上传失败！");
-			// });
-		// }
-	// }
-// }
-
-
-
-
-
