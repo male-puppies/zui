@@ -29,6 +29,7 @@ function initData() {
 			var data = d.data;
 			setLan(data);
 			jsonTraversal(data, jsTravSet);
+			OnChangeMask();
 		} else {
 			createModalTips("初始化失败！请尝试重新加载！");
 		}
@@ -90,7 +91,8 @@ function initEvents() {
 	$(".wrapper-oth").hide();
 	$(".main-wrapper.other > .main-top").on("click", OnSHide);
 	$("#lan1__enable, #lan2__enable, #lan3__enable").on("click", function() { OnEnable(this); });
-	$("#lan0__dhcp_enable, #lan1__dhcp_enable, #lan2__dhcp_enable, #lan3__dhcp_enable").on("click", function() { OnDhcpEnable(this); })
+	$("#lan0__dhcp_enable, #lan1__dhcp_enable, #lan2__dhcp_enable, #lan3__dhcp_enable").on("click", function() { OnDhcpEnable(this); });
+	$("#lan0__netmask, #lan1__netmask, #lan2__netmask, #lan3__netmask").on("blur keyup", function() { OnChangeMask(this); })
 	OnEnable();
 	
 	$('[data-toggle="tooltip"]').tooltip();
@@ -186,6 +188,32 @@ function OnSHide() {
 	}
 }
 
+function OnChangeMask(that) {
+	if (typeof that != "undefined") {
+		verifys(that);
+	} else {
+		$("#lan0__netmask, #lan1__netmask, #lan2__netmask, #lan3__netmask").each(function(index, element) {
+			verifys(element);
+		});
+	}
+	
+	function verifys(that) {
+		var val = $(that).val();
+		if (!verifyMask(val)) return;
+		var num = 0;
+		for (var i = 31; i >= 0; i--) {
+			if (((1 << i) & ipToint(val)) == 0) {
+				num = Math.pow(2,i + 1) - 2;
+				break;
+			}
+		}
+
+		$(that).closest(".form-group").nextAll().find(".verifymask").attr("verify", "num 1 " + num);
+		verifyEventsInit();
+		$(that).closest(".form-group").nextAll().find(".verifymask").closest(".form-group").find(".icon-tip").attr("data-original-title", "输入数字1~" + num + "。");
+	}
+}
+
 function OnEnable(that) {
 	if (typeof that != "undefined") {
 		checked(that)
@@ -224,4 +252,55 @@ function OnDhcpEnable(that) {
 			$(_that).parents(".form-group").nextAll().find("input[type='text']").prop("disabled", true);
 		}
 	}
+}
+
+function ipToint(ip) {
+	var num = 0;
+    ip = ip.split(".");
+    num = Number(ip[0]) * 256 * 256 * 256 + Number(ip[1]) * 256 * 256 + Number(ip[2]) * 256 + Number(ip[3]);
+    num = num >>> 0;
+    return num;
+}
+
+function verifyMask(val) {
+	var reg = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+	if (!reg.test(val)) {
+		return false;
+	}
+	var m = [],
+		mn = val.split(".");
+	
+	if(val == "0.0.0.0" || val == "255.255.255.255"){
+		return true;
+	}
+	if (mn.length == 4) {
+		for (i = 0; i < 4; i++) {
+			m[i] = mn[i];
+		}
+	} else {
+		return false;
+	}
+
+	var v = (m[0]<<24)|(m[1]<<16)|(m[2]<<8)|(m[3]);
+
+	var f = 0;	  
+	for (k = 0; k < 32; k++) {
+		if ((v >> k) & 1) {
+			f = 1;
+		} else if (f == 1) {
+			return false ;
+		}
+	}
+	if (f == 0) { 
+		return false;
+	}
+
+	for(i = 0; i < 4; i++) {
+		var t = /^\d{1,}$/;
+		if(!t.test(mn[i])) {
+			return false;
+		}	
+	}
+	
+	return true;
 }
