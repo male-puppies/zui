@@ -36,11 +36,31 @@ function brushFunc(d) {
 
 function funcall() {
 	setInterval(function() {
-		ucicall("GetSystem", function(d) {
-			setTimeout(function() {
-				window.location.href = "/admin/login/admin_login/login.html";
-			}, 6000);
-		});
+		var cmd = {
+			"key": "Login",
+			"data": {
+				"username": "",
+				"password": ""
+			}
+		}
+		$.post(
+			"/logincall",
+			{
+				"cmd": JSON.stringify(cmd)
+			},
+			function(d) {
+				if (typeof d == "object" && typeof d.data != "undefined") {
+					if (d.data.indexOf("failed") >= 0 || d.data.indexOf("error") >= 0 || d.data.indexOf("timeout") >= 0) {
+						console.log("continue...");
+					} else {
+						setTimeout(function() {
+							window.location.href = "/admin/login/admin_login/login.html";
+						}, 6000);
+					}
+				}
+			},
+			"json"
+		);
 	}, 5000);
 }
 
