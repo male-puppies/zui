@@ -281,9 +281,11 @@ header .footing-title .bt a {
 table.dataTable {
     border: none;
 	padding-top: 35px;
+	padding-bottom: 41.35px;
 }
 .row table.dataTable {
-	padding-top: 0
+	padding-top: 0;
+	padding-bottom: 0;
 }
 table.dataTable > tbody > tr > td,
 table.dataTable > tbody > tr > th,
