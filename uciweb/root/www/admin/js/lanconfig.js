@@ -110,6 +110,23 @@ function OnSubmit() {
 		createModalTips("IP地址不能相同！");
 		return;
 	}
+	var mark = true;
+	$("#lan0__netmask, #lan1__netmask, #lan2__netmask, #lan3__netmask").each(function(index, element) {
+		var num = verifys(element);
+		var nums = 0;
+		$(element).closest("form.form-horizontal").find(".verifymask").each(function(i, e) {
+			nums += parseInt($(e).val());
+		});
+		
+		if (nums > num) {
+			createModalTips("lan" + index + " 的DHCP因 起始分配基址 和 客户数 而超出IP分配范围，请重新填写！");
+			mark = false;
+			return false;
+		}
+	});
+	console.log(mark)
+	if (!mark) return;
+	
 
 	var obj = {};
 	obj["dhcp"] = {};
@@ -187,24 +204,15 @@ function OnSHide() {
 
 function OnChangeMask(that) {
 	if (typeof that != "undefined") {
-		verifys(that);
+		nodeChange(that);
 	} else {
 		$("#lan0__netmask, #lan1__netmask, #lan2__netmask, #lan3__netmask").each(function(index, element) {
-			verifys(element);
+			nodeChange(element);
 		});
 	}
 	
-	function verifys(that) {
-		var val = $(that).val();
-		if (!verifyMask(val)) return;
-		var num = 0;
-		for (var i = 31; i >= 0; i--) {
-			if (((1 << i) & ipToint(val)) == 0) {
-				num = Math.pow(2,i + 1) - 2;
-				break;
-			}
-		}
-
+	function nodeChange(that) {
+		var num = verifys(that);
 		$(that).closest(".form-group").nextAll().find(".verifymask").attr("verify", "num 1 " + num);
 		verifyEventsInit();
 		$(that).closest(".form-group").nextAll().find(".verifymask").closest(".form-group").find(".icon-tip").attr("data-original-title", "输入数字1~" + num + "。");
@@ -257,6 +265,17 @@ function ipToint(ip) {
     num = Number(ip[0]) * 256 * 256 * 256 + Number(ip[1]) * 256 * 256 + Number(ip[2]) * 256 + Number(ip[3]);
     num = num >>> 0;
     return num;
+}
+
+function verifys(that) {
+	var val = $(that).val();
+	if (!verifyMask(val)) return;
+	for (var i = 31; i >= 0; i--) {
+		if (((1 << i) & ipToint(val)) == 0) {
+			num = Math.pow(2,i + 1) - 2;
+			return num;
+		}
+	}
 }
 
 function verifyMask(val) {
