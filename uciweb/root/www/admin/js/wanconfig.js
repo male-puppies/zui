@@ -84,11 +84,20 @@ function OnProtocol() {
 		if (value === "dhcp") {
 			$(".wan" + i + "-pppoe, .wan" + i + "-static").hide().find("input").prop("disabled", true);
 		} else if (value === "pppoe") {
-			$(".wan" + i + "-pppoe").show().find("input").prop("disabled", false);
+			$(".wan" + i + "-pppoe").show();
+			if ($(".wan" + i + "-pppoe input").is(":visible")) {
+				$(".wan" + i + "-pppoe input").prop("disabled", false);
+			}
+			// $(".wan" + i + "-pppoe").show().find("input").prop("disabled", false);
 			$(".wan" + i + "-static").hide().find("input").prop("disabled", true);
 		} else if (value === "static") {
+			$(".wan" + i + "-static").show();
+			if ($(".wan" + i + "-static input").is(":visible")) {
+				$(".wan" + i + "-static input").prop("disabled", false);
+			}
+			
 			$(".wan" + i + "-pppoe").hide().find("input").prop("disabled", true);
-			$(".wan" + i + "-static").show().find("input").prop("disabled", false);
+			// $(".wan" + i + "-static").show().find("input").prop("disabled", false);
 		}
 	}
 }

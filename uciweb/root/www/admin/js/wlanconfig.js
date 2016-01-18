@@ -137,8 +137,8 @@ function createDtAps() {
 		],
 		"rowCallback": dtBindRowSelectEvents,
 		"drawCallback": function() {
-			$('.efaps_all input').prop("checked", true);
-			$('.efaps_oth input').prop("checked", false);
+			// $('.efaps_all input').prop("checked", true);
+			// $('.efaps_oth input').prop("checked", false);
 			this.$('td:eq(1)', {}).each(function(index, element) {
 				if ($(element).find('input').is(":checked")) {
 					$(element).parent("tr").addClass("row_selected");
@@ -183,6 +183,10 @@ function set_wlanListAps(wlan){
 		obj.SSID = wlan["SSID"];
 		obj.ext_wlanid = wlan["ext_wlanid"];
 		modify_wlanid = wlan["ext_wlanid"];
+	} else {
+		$(".efaps_all input").prop("checked", true);
+		$(".efaps_oth input").prop("checked", false);
+		$(".checkall2").prop("checked", false)
 	}
 
 	cgicall('WLANListAps', obj, function(d) {
