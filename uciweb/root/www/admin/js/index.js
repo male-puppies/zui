@@ -17,7 +17,7 @@ function setTimeInitData() {
 }
 
 function initData() {
-	mark1 = false,
+	mark1 = false;
 	mark2 = false;
 
 	ucicall("GetStatus", function(d) {
