@@ -1,6 +1,4 @@
-var mark1,
-	mark2,
-	clearInitData;
+var clearInitData;
 
 $(function() {
 	$(".title i.spin-load").css("display", "inline-block");
@@ -9,7 +7,6 @@ $(function() {
 });
 
 function setTimeInitData() {
-	if (mark1 == false || mark2 == false) {return}
 	clearTimeout(clearInitData);
 	clearInitData = setTimeout(function(){
 		initData();
@@ -17,26 +14,14 @@ function setTimeInitData() {
 }
 
 function initData() {
-	mark1 = false,
-	mark2 = false;
+	mark1 = false;
 
 	ucicall("GetStatus", function(d) {
 		if (d.status == 0) {
 			setSystem(d.data);
-			mark1 = true;
 			setTimeInitData();
 		} else {
 			console.log("获取数据失败！请尝试重新加载！" + (d.data ? d.data : ""));
-		}
-	});
-	
-	ucicall("GetEthStatus", function(d) {
-		if (d.status == 0) {
-			setInterface(d.data);
-			mark2 = true;
-			setTimeInitData();
-		} else {
-			console.log("获取数据失败！请尝试重新加载！" + (d.data ? d.data : ""))
 		}
 	});
 }
@@ -62,47 +47,6 @@ function setSystem(d) {
 	$(".conncount").html(d.conncount + " / " + d.connmax);
 	
 	$(".title i.spin-load1").css("display", "none");
-}
-
-function setInterface(d) {
-	for (var i in d) {
-		for (var k in d[i]) {
-			if (typeof d[i][k] != "object") {
-				if (d[i]["link"] == false) {
-					$("." + i + " .zone-big").css("background-position", "0 0");
-				} else {
-					$("." + i + " .zone-big").css("background-position", "0 -39px");
-				}
-
-				if (k == "uptime") {
-					$("." + i + " ." + k + " span").html(arrive_timer_format(d[i][k]));
-				} else if (k == "speed") {
-					if (d[i]["link"] == true) {
-						$("." + i + " span." + k).html(d[i][k] + "Mbps");
-					}
-				} else if (k == "duplex") {
-					if (d[i]["link"] == true) {
-						var dup = " 全双工";
-						if (d[i][k] == "false") {
-							dup = " 半双工";
-						}
-						$("." + i + " span." + k).html(dup);
-					}
-				} else {
-					$("." + i + " ." + k + " span").html(d[i][k]);
-				}
-			} else {
-				if (d[i][k].length == 1) {
-					$("." + i + " .dns1 span").html(d[i][k][0]);
-				} else if (d[i][k].length == 2) {
-					$("." + i + " .dns1 span").html(d[i][k][0]);
-					$("." + i + " .dns2 span").html(d[i][k][1]);
-				}
-			}
-		}
-	}
-	
-	$(".title i.spin-load2").css("display", "none");
 }
 
 function initEvents() {
