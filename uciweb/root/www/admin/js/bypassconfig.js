@@ -57,6 +57,7 @@ function OnSubmit() {
 		"dns": ""
 	}
 	var o = jsonTraversal(obj, jsTravGet);
+	o.dns = o["dns"].replace(/\,/g, " ");
 	o.ifname = "eth0";
 	o.proto = "static";
 
