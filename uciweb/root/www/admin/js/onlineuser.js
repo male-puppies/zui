@@ -44,6 +44,7 @@ function createDtUsers() {
 			},
 			{ 
 				"data": "ip",
+				"visible": false,
 				"render": function(d, t, f){
 					return d == "" ? "waiting..." : d;
 				}
