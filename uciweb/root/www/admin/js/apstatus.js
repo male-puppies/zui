@@ -512,6 +512,7 @@ function initEvents() {
 	$('#btn_exec_cmd').on('click', OnGetApLog);
 	$('#channel_2g_enable').on('click', OnChannelEn2);
 	$('#channel_5g_enable').on('click', OnChannelEn5);
+	$('fieldset.form-ff legend').on('click', OnLegend);
 
 	//select event
 	$('#edit__ip_distribute').on('change', OnLanDHCPChg); //DHCP分配
@@ -698,6 +699,17 @@ function OnGetApLog() {
 			verifyModalTip("获取日志失败！请尝试重新加载！");
 		}
 	});
+}
+
+function OnLegend() {
+	var t = $(this).siblings(".form-hh");
+	if (t.is(":hidden")) {
+		$(this).find("span i").removeClass("icon-double-angle-down").addClass("icon-double-angle-up");
+		t.slideDown(500);
+	} else {
+		$(this).find("span i").removeClass("icon-double-angle-up").addClass("icon-double-angle-down");
+		t.slideUp(500);
+	}
 }
 
 function getSelected(that) {

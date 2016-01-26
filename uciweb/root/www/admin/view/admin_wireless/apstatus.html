@@ -320,80 +320,82 @@
 								</div>
 							</fieldset>
 							
-							<fieldset>
-								<legend>高级配置(2G)</legend>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_2g__rts">RTS阈值</label>
-									<div class="col-xs-5">
-										<input type="text" id="edit__radio_2g__rts" class="form-control" value="2347" verify="num 1 2347" />
-									</div>
-									<div class="col-xs-3 tip-icons">
-										<span class="units">Byte</span>
-										<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~2347。"><i class="icon-question-sign"></i></span>
-									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_2g__beacon">Beacon周期</label>
-									<div class="col-xs-5">
-										<input type="text" id="edit__radio_2g__beacon" class="form-control" value="100" verify="num 50 1000" />
-									</div>
-									<div class="col-xs-3 tip-icons">
-										<span class="units">ms</span>
-										<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字50~1000。"><i class="icon-question-sign"></i></span>
-									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_2g__dtim">DTIM间隔</label>
-									<div class="col-xs-5">
-										<input type="text" id="edit__radio_2g__dtim" class="form-control" value="1" verify="num 1 100" />
-									</div>
-									<div class="col-xs-3 tip-icons">
-										<span class="units">ms</span>
-										<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~100。"><i class="icon-question-sign"></i></span>
-									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label">前导码类型</label>
-									<div class="col-xs-5">
-										<div class="radio">
-											<label><input type="radio" id="edit__radio_2g__leadcode" name="edit__radio_2g__leadcode" value="0" />长前导码</label>
+							<fieldset class="form-ff">
+								<legend>高级配置(2G)<span class="pull-right"><i class="icon-double-angle-down"></i></span></legend>
+								<div class="form-hh">
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_2g__rts">RTS阈值</label>
+										<div class="col-xs-5">
+											<input type="text" id="edit__radio_2g__rts" class="form-control" value="2347" verify="num 1 2347" />
 										</div>
-										<div class="radio">
-											<label><input type="radio" name="edit__radio_2g__leadcode"  checked="checked" value="1" />短前导码</label>
+										<div class="col-xs-3 tip-icons">
+											<span class="units">Byte</span>
+											<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~2347。"><i class="icon-question-sign"></i></span>
 										</div>
 									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_2g__shortgi">启用Short GI</label>
-									<div class="col-xs-5">
-										<div class="checkbox">
-											<label><input type="checkbox" id="edit__radio_2g__shortgi" value="1 0" /></label>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_2g__beacon">Beacon周期</label>
+										<div class="col-xs-5">
+											<input type="text" id="edit__radio_2g__beacon" class="form-control" value="100" verify="num 50 1000" />
+										</div>
+										<div class="col-xs-3 tip-icons">
+											<span class="units">ms</span>
+											<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字50~1000。"><i class="icon-question-sign"></i></span>
 										</div>
 									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_2g__remax">最大重传</label>
-									<div class="col-xs-5">
-										<input type="text" id="edit__radio_2g__remax" class="form-control" value="4" verify="num 1 10" />
-									</div>
-									<div class="col-xs-3 tip-icons">
-										<span class="units">次</span>
-										<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~10。"><i class="icon-question-sign"></i></span>
-									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_2g__ampdu">启用A-MPDU</label>
-									<div class="col-xs-5">
-										<div class="checkbox">
-											<label><input type="checkbox" id="edit__radio_2g__ampdu" value="1 0" /></label>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_2g__dtim">DTIM间隔</label>
+										<div class="col-xs-5">
+											<input type="text" id="edit__radio_2g__dtim" class="form-control" value="1" verify="num 1 100" />
+										</div>
+										<div class="col-xs-3 tip-icons">
+											<span class="units">ms</span>
+											<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~100。"><i class="icon-question-sign"></i></span>
 										</div>
 									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_2g__amsdu">启用A-MSDU</label>
-									<div class="col-xs-5">
-										<div class="checkbox">
-											<label><input type="checkbox" id="edit__radio_2g__amsdu" value="1 0" /></label>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label">前导码类型</label>
+										<div class="col-xs-5">
+											<div class="radio">
+												<label><input type="radio" id="edit__radio_2g__leadcode" name="edit__radio_2g__leadcode" value="0" />长前导码</label>
+											</div>
+											<div class="radio">
+												<label><input type="radio" name="edit__radio_2g__leadcode"  checked="checked" value="1" />短前导码</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_2g__shortgi">启用Short GI</label>
+										<div class="col-xs-5">
+											<div class="checkbox">
+												<label><input type="checkbox" id="edit__radio_2g__shortgi" value="1 0" /></label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_2g__remax">最大重传</label>
+										<div class="col-xs-5">
+											<input type="text" id="edit__radio_2g__remax" class="form-control" value="4" verify="num 1 10" />
+										</div>
+										<div class="col-xs-3 tip-icons">
+											<span class="units">次</span>
+											<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~10。"><i class="icon-question-sign"></i></span>
+										</div>
+									</div>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_2g__ampdu">启用A-MPDU</label>
+										<div class="col-xs-5">
+											<div class="checkbox">
+												<label><input type="checkbox" id="edit__radio_2g__ampdu" value="1 0" /></label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_2g__amsdu">启用A-MSDU</label>
+										<div class="col-xs-5">
+											<div class="checkbox">
+												<label><input type="checkbox" id="edit__radio_2g__amsdu" value="1 0" /></label>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -490,80 +492,82 @@
 								</div>
 							</fieldset>
 							
-							<fieldset>
-								<legend>高级配置(5G)</legend>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_5g__rts">RTS阈值</label>
-									<div class="col-xs-5">
-										<input type="text" id="edit__radio_5g__rts" class="form-control" value="2347" verify="num 1 2347" />
-									</div>
-									<div class="col-xs-3 tip-icons">
-										<span class="units">Byte</span>
-										<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~2347。"><i class="icon-question-sign"></i></span>
-									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_5g__beacon">Beacon周期</label>
-									<div class="col-xs-5">
-										<input type="text" id="edit__radio_5g__beacon" class="form-control" value="100" verify="num 50 1000" />
-									</div>
-									<div class="col-xs-3 tip-icons">
-										<span class="units">ms</span>
-										<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字50~1000。"><i class="icon-question-sign"></i></span>
-									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_5g__dtim">DTIM间隔</label>
-									<div class="col-xs-5">
-										<input type="text" id="edit__radio_5g__dtim" class="form-control" value="1" verify="num 1 100" />
-									</div>
-									<div class="col-xs-3 tip-icons">
-										<span class="units">ms</span>
-										<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~100。"><i class="icon-question-sign"></i></span>
-									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label">前导码类型</label>
-									<div class="col-xs-5">
-										<div class="radio">
-											<label><input type="radio" id="edit__radio_5g__leadcode" name="edit__radio_5g__leadcode" value="0" />长前导码</label>
+							<fieldset class="form-ff">
+								<legend>高级配置(5G)<span class="pull-right"><i class="icon-double-angle-down"></i></span></legend>
+								<div class="form-hh">
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_5g__rts">RTS阈值</label>
+										<div class="col-xs-5">
+											<input type="text" id="edit__radio_5g__rts" class="form-control" value="2347" verify="num 1 2347" />
 										</div>
-										<div class="radio">
-											<label><input type="radio" name="edit__radio_5g__leadcode"  checked="checked" value="1" />短前导码</label>
+										<div class="col-xs-3 tip-icons">
+											<span class="units">Byte</span>
+											<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~2347。"><i class="icon-question-sign"></i></span>
 										</div>
 									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_5g__shortgi">启用Short GI</label>
-									<div class="col-xs-5">
-										<div class="checkbox">
-											<label><input type="checkbox" id="edit__radio_5g__shortgi" value="1 0" /></label>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_5g__beacon">Beacon周期</label>
+										<div class="col-xs-5">
+											<input type="text" id="edit__radio_5g__beacon" class="form-control" value="100" verify="num 50 1000" />
+										</div>
+										<div class="col-xs-3 tip-icons">
+											<span class="units">ms</span>
+											<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字50~1000。"><i class="icon-question-sign"></i></span>
 										</div>
 									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_5g__remax">最大重传</label>
-									<div class="col-xs-5">
-										<input type="text" id="edit__radio_5g__remax" class="form-control" value="4" verify="num 1 10" />
-									</div>
-									<div class="col-xs-3 tip-icons">
-										<span class="units">次</span>
-										<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~10。"><i class="icon-question-sign"></i></span>
-									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_5g__ampdu">启用A-MPDU</label>
-									<div class="col-xs-5">
-										<div class="checkbox">
-											<label><input type="checkbox" id="edit__radio_5g__ampdu" value="1 0" /></label>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_5g__dtim">DTIM间隔</label>
+										<div class="col-xs-5">
+											<input type="text" id="edit__radio_5g__dtim" class="form-control" value="1" verify="num 1 100" />
+										</div>
+										<div class="col-xs-3 tip-icons">
+											<span class="units">ms</span>
+											<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~100。"><i class="icon-question-sign"></i></span>
 										</div>
 									</div>
-								</div>
-								<div class="form-group clearfix">
-									<label class="col-xs-4 control-label" for="edit__radio_5g__amsdu">启用A-MSDU</label>
-									<div class="col-xs-5">
-										<div class="checkbox">
-											<label><input type="checkbox" id="edit__radio_5g__amsdu" value="1 0" /></label>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label">前导码类型</label>
+										<div class="col-xs-5">
+											<div class="radio">
+												<label><input type="radio" id="edit__radio_5g__leadcode" name="edit__radio_5g__leadcode" value="0" />长前导码</label>
+											</div>
+											<div class="radio">
+												<label><input type="radio" name="edit__radio_5g__leadcode"  checked="checked" value="1" />短前导码</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_5g__shortgi">启用Short GI</label>
+										<div class="col-xs-5">
+											<div class="checkbox">
+												<label><input type="checkbox" id="edit__radio_5g__shortgi" value="1 0" /></label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_5g__remax">最大重传</label>
+										<div class="col-xs-5">
+											<input type="text" id="edit__radio_5g__remax" class="form-control" value="4" verify="num 1 10" />
+										</div>
+										<div class="col-xs-3 tip-icons">
+											<span class="units">次</span>
+											<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~10。"><i class="icon-question-sign"></i></span>
+										</div>
+									</div>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_5g__ampdu">启用A-MPDU</label>
+										<div class="col-xs-5">
+											<div class="checkbox">
+												<label><input type="checkbox" id="edit__radio_5g__ampdu" value="1 0" /></label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group clearfix">
+										<label class="col-xs-4 control-label" for="edit__radio_5g__amsdu">启用A-MSDU</label>
+										<div class="col-xs-5">
+											<div class="checkbox">
+												<label><input type="checkbox" id="edit__radio_5g__amsdu" value="1 0" /></label>
+											</div>
 										</div>
 									</div>
 								</div>
