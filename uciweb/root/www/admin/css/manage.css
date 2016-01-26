@@ -583,10 +583,24 @@ div.dataTables_length select.form-control {
   background-color: #398de3;
 }
 .modal-body legend {
-	padding-top: 20px;
+	margin-top: 20px;
 }
 label {
 	font-weight: normal;
+}
+.modal-body fieldset.form-ff legend {
+	cursor: pointer;
+	background: #f9f9f9;
+}
+.modal-body fieldset.form-ff legend:hover {
+	background: #eee;
+}
+.modal-body fieldset.form-ff legend span {
+	font-size: 21px;
+	padding-right: 10px;
+}
+.modal-body fieldset.form-ff .form-hh {
+	display: none;
 }
 
 .prorssi {

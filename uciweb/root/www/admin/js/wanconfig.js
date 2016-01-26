@@ -61,6 +61,7 @@ function initEvents() {
 	$("input[name='radio_wan']").on("click", OnWan);
 	$("input[name=wan0__proto], input[name=wan1__proto], input[name=wan2__proto], input[name=wan3__proto]").on("change", OnProtocol);
 	$(".submit").on("click", OnSubmit);
+	$(".showlock").on("click", OnShowlock);
 	OnWan();
 	$('[data-toggle="tooltip"]').tooltip();
 }
@@ -108,6 +109,7 @@ function OnSubmit() {
 	var value = $("input[name='radio_wan']:checked").val();
 	if (parseInt(value) > 1) {
 		var sameip = [];
+		var sameic = [];
 		for (var v = 0; v < parseInt(value); v++) {
 			if ($("#wan" + v + "__metric").val() == "" && !($("#wan" + v + "__metric").is(":disabled"))) {
 				createModalTips("当启用多个WAN口时，跃点数不能为空！请重新输入！");
@@ -116,9 +118,16 @@ function OnSubmit() {
 			if (!($("#wan" + v + "__ipaddr").is(":disabled"))) {
 				sameip.push($("#wan" + v + "__ipaddr").val());
 			}
+			if (!($("#wan" + v + "__metric").is(":disabled"))) {
+				sameic.push($("#wan" + v + "__metric").val());
+			}
 		}
 		if (/(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + sameip.join("\x0f\x0f") + "\x0f")) {
 			createModalTips("IP地址不能相同！");
+			return;
+		}
+		if (/(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + sameic.join("\x0f\x0f") + "\x0f")) {
+			createModalTips("跃点数不能相同！");
 			return;
 		}
 	}
@@ -208,5 +217,18 @@ function setRadios(data) {
 				$(element).prop("checked", true);
 			}
 		});
+	}
+}
+
+function OnShowlock(that) {
+	var tt = $(this).closest(".form-group").find("input.form-control")
+	if (tt.length > 0 && (tt.attr("type") == "text" || tt.attr("type") == "password")) {
+		if (tt.attr("type") == "password") {
+			$(this).find("i").removeClass("icon-lock").addClass("icon-unlock");
+			tt.attr("type", "text");
+		} else {
+			$(this).find("i").removeClass("icon-unlock").addClass("icon-lock");
+			tt.attr("type", "password")
+		}
 	}
 }

@@ -17,7 +17,55 @@
 				var m = [],
 					mn = val.split(".");
 				
-				if(val == "0.0.0.0" || val == "255.255.255.255"){
+				if (val == "0.0.0.0" || val == "255.255.255.255"){
+					return true;
+				}
+				if (mn.length == 4) {
+					for (i = 0; i < 4; i++) {
+						m[i] = mn[i];
+					}
+				} else {
+					return false;
+				}
+			
+				var v = (m[0]<<24)|(m[1]<<16)|(m[2]<<8)|(m[3]);
+			
+				var f = 0;	  
+				for (k = 0; k < 32; k++) {
+					if ((v >> k) & 1) {
+						f = 1;
+					} else if (f == 1) {
+						return false ;
+					}
+				}
+				if (f == 0) { 
+					return false;
+				}
+			
+				for(i = 0; i < 4; i++) {
+					var t = /^\d{1,}$/;
+					if(!t.test(mn[i])) {
+						return false;
+					}	
+				}
+				
+				return true ;
+			},
+			message: "非法掩码格式。"
+		},
+		"lan_mask": {
+			method: function(val) {
+				var reg = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+				if (!reg.test(val)) {
+					return false;
+				}
+				var m = [],
+					mn = val.split(".");
+				
+				if (val == "0.0.0.0" || val == "128.0.0.0" || val == "192.0.0.0" || val == "224.0.0.0" || val == "240.0.0.0" || val == "248.0.0.0" || val == "252.0.0.0" || val == "254.0.0.0") {
+					return false;
+				}
+				if (val == "255.255.255.255"){
 					return true;
 				}
 				if (mn.length == 4) {
