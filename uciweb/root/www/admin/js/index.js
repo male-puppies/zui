@@ -1,5 +1,6 @@
 var mark1,
 	mark2,
+	cpu_stat = {},
 	clearInitData;
 
 $(function() {
@@ -42,11 +43,38 @@ function initData() {
 }
 
 function setSystem(d) {
-	var cpu = 100 - parseInt(d.cpuidle),
+	var cpu = 0,
 		memory = parseInt(d.memorycount) * 100 / parseInt(d.memorymax),
 		conncount = parseInt(d.conncount) * 100 / parseInt(d.connmax),
 		loadavg = Math.round(d.loadavg[0] /65535 * 100)/100 + ", " + Math.round(d.loadavg[1] /65535 * 100)/100 + ", " + Math.round(d.loadavg[2] /65535 * 100)/100;
-
+	
+	if (typeof d.cpu_stat.iowait != "undefined" && typeof d.cpu_stat.idle != "undefined" && typeof d.cpu_stat.user != "undefined" && typeof d.cpu_stat.irq != "undefined" && typeof d.cpu_stat.softirq != "undefined" && typeof d.cpu_stat.system != "undefined" && typeof d.cpu_stat.nice != "undefined") {
+		if (typeof cpu_stat.idle != "undefined") {
+			var iowait = parseInt(d.cpu_stat.iowait) - parseInt(cpu_stat.iowait),
+				idle = parseInt(d.cpu_stat.idle) - parseInt(cpu_stat.idle),
+				user = parseInt(d.cpu_stat.user) - parseInt(cpu_stat.user),
+				irq = parseInt(d.cpu_stat.irq) - parseInt(cpu_stat.irq),
+				softirq = parseInt(d.cpu_stat.softirq) - parseInt(cpu_stat.softirq),
+				system = parseInt(d.cpu_stat.system) - parseInt(cpu_stat.system),
+				nice = parseInt(d.cpu_stat.nice) - parseInt(cpu_stat.nice);
+				
+				console.log(iowait)
+				console.log(idle)
+				console.log(user)
+				console.log(irq)
+				console.log(softirq)
+				console.log(system)
+				console.log(nice)
+				
+			cpu = parseInt((iowait + user + irq + softirq + system + nice) / (iowait + user + irq + softirq + system + nice + idle) * 100);
+			$(".cpu-mark").hide();
+		}
+		
+		cpu_stat = d.cpu_stat;
+	}
+	
+	
+	
 	$("#version").html(d.version);
 	$("#times").html(d.times);
 	$("#uptime").html(arrive_timer_format(d.uptime));

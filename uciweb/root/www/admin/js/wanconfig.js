@@ -27,6 +27,7 @@ $(function() {
 	verifyEventsInit();
 	initEvents();
 	initData();
+	setInitMac("11:22:33:11:22:ff")
 });
 
 function createInitModal() {
@@ -45,16 +46,53 @@ function initData() {
 			setRadios(data);
 			$("input.empty").val("");
 			for (var k in data) {
-				if ("dns" in data[k]) {
+				if (typeof data[k] == "object" && "dns" in data[k]) {
 					data[k]["dns"] = data[k]["dns"].replace(/\ /g, ",");
 				}
 			}
 			jsonTraversal(data, jsTravSet);
 			OnWan();
+			setInitMac(data.initmac);
 		} else {
 			createModalTips("初始化失败！请尝试重新加载！");
 		}
 	});
+}
+
+function setInitMac(mac) {
+	var reg = /^([0-9a-fA-F]{2}(:)){5}[0-9a-fA-F]{2}$/;
+	if (!reg.test(mac)) return;
+
+	var arr = mac.split(":");
+	if (typeof arr[5] == "undefined") return;
+	var qmac = arr[0] + ":" + arr[1] + ":" + arr[2] + ":" + arr[3] + ":" + arr[4] + ":";
+
+	if ($("#wan0__macaddr").val() == "") {
+		$("#wan0__macaddr").val(qmac + madd(arr[5], 4));
+	}
+	if ($("#wan1__macaddr").val() == "") {
+		$("#wan1__macaddr").val(qmac + madd(arr[5], 3));
+	}
+	if ($("#wan2__macaddr").val() == "") {
+		$("#wan2__macaddr").val(qmac + madd(arr[5], 2));
+	}
+	if ($("#wan3__macaddr").val() == "") {
+		$("#wan3__macaddr").val(qmac + madd(arr[5], 1));
+	}
+	
+	function madd(a, b) {
+		var num = parseInt(a, 16) + parseInt(b);
+		var str = num.toString(16);
+		if (str.length == 1) {
+			return "0" + str;
+		} else if (str.length == 2) {
+			return str;
+		} else if (str.length == 3) {
+			return str.substring(1);
+		} else {
+			return "00";
+		}
+	}
 }
 
 function initEvents() {
@@ -110,6 +148,7 @@ function OnSubmit() {
 	if (parseInt(value) > 1) {
 		var sameip = [];
 		var sameic = [];
+		var samemac = [];
 		for (var v = 0; v < parseInt(value); v++) {
 			if ($("#wan" + v + "__metric").val() == "" && !($("#wan" + v + "__metric").is(":disabled"))) {
 				createModalTips("当启用多个WAN口时，跃点数不能为空！请重新输入！");
@@ -121,6 +160,9 @@ function OnSubmit() {
 			if (!($("#wan" + v + "__metric").is(":disabled"))) {
 				sameic.push($("#wan" + v + "__metric").val());
 			}
+			if (!($("#wan" + v + "__macaddr").is(":disabled"))) {
+				samemac.push($("#wan" + v + "__macaddr").val());
+			}
 		}
 		if (/(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + sameip.join("\x0f\x0f") + "\x0f")) {
 			createModalTips("IP地址不能相同！");
@@ -128,6 +170,10 @@ function OnSubmit() {
 		}
 		if (/(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + sameic.join("\x0f\x0f") + "\x0f")) {
 			createModalTips("跃点数不能相同！");
+			return;
+		}
+		if (/(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + samemac.join("\x0f\x0f") + "\x0f")) {
+			createModalTips("MAC地址不能相同！");
 			return;
 		}
 	}

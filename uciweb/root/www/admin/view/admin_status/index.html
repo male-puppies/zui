@@ -39,6 +39,30 @@
 }
 .radial {
 	margin-bottom: 30px;
+	position: relative;
+}
+.cpu-mark .mark-a {
+	position: absolute;
+	z-index: 100;
+	width: 74px;
+	height: 74px;
+	top: 0;
+	left: 0;
+	filter: alpha(opacity=50);
+	opacity: 0.50;
+	background:#000
+}
+.cpu-mark .mark-b {
+	position: absolute;
+	z-index: 101;
+	width: 74px;
+	height: 74px;
+	top: 0;
+	left: 0;
+	font-weight: bold;
+	color: #fff;
+	line-height: 74px;
+	text-align: center;
 }
 .radial-left {
 	padding: 10px;
@@ -188,7 +212,11 @@
 				</ul>
 			</div>
 			<div class="col-md-5" style="padding:23px 40px; 0">
-				<div class="radial">
+				<div class="radial" style="position: relative;">
+					<div class="cpu-mark">
+						<div class="mark-a"></div>
+						<div class="mark-b">采集中...</div>
+					</div>
 					<div class="radial-left pull-left" style="background: #4fc4ea;">
 						<div id="cpuidle"></div>
 					</div>
