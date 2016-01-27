@@ -164,15 +164,15 @@ function OnSubmit() {
 				samemac.push($("#wan" + v + "__macaddr").val());
 			}
 		}
-		if (/(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + sameip.join("\x0f\x0f") + "\x0f")) {
+		if (isRepeat(sameip)) {
 			createModalTips("IP地址不能相同！");
 			return;
 		}
-		if (/(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + sameic.join("\x0f\x0f") + "\x0f")) {
+		if (isRepeat(sameic)) {
 			createModalTips("跃点数不能相同！");
 			return;
 		}
-		if (/(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + samemac.join("\x0f\x0f") + "\x0f")) {
+		if (isRepeat(samemac)) {
 			createModalTips("MAC地址不能相同！");
 			return;
 		}
@@ -277,4 +277,13 @@ function OnShowlock(that) {
 			tt.attr("type", "password")
 		}
 	}
+}
+
+function isRepeat(arr) {
+	var hash = {};
+	for(var i in arr) {
+		if (hash[arr[i]]) return true;
+		hash[arr[i]] = true;
+	}
+	return false;
 }
