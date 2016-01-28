@@ -9,10 +9,10 @@ var g_post = {
 };
 
 $(function(){
-	createInitModal
-	verifyEventsInit();
-	initEvent();
-	initData();
+	// createInitModal();
+	// verifyEventsInit();
+	initEvents();
+	// initData();
 });
 
 function createInitModal() {
@@ -22,7 +22,7 @@ function createInitModal() {
 	});
 }
 
-function initData(){
+function initData() {
 	cgicall('WxShopList', function(d) {
 		jsonTraversal(d, jsTravSet);
 		if (typeof d.switch != "undefined" && d.switch == "1") {
@@ -35,8 +35,8 @@ function initData(){
 	})
 }
 
-function initEvent(){
-	$('#btn_submit').on('click', saveConf);
+function initEvents() {
+	// $('#btn_submit').on('click', saveConf);
 	$('[data-toggle="tooltip"]').tooltip();
 }
 

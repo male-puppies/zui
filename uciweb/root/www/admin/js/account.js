@@ -9,7 +9,7 @@ var g_post = {
 $(function(){
 	createInitModal();
 	verifyEventsInit();
-	initEvent();
+	initEvents();
 	initData();
 });
 
@@ -20,13 +20,18 @@ function createInitModal() {
 	});
 }
 
-function initData(){
+function initData() {
 	cgicall('AccountList', function(d) {
 		jsonTraversal(d, jsTravSet);
+		if (typeof d.state != "undefined" && d.state == 1) {
+			$(".connet-account").show().find("p").html(d.host);
+		} else {
+			$(".connet-account").hide();
+		}
 	})
 }
 
-function initEvent(){
+function initEvents() {
 	$('.submit').on('click', saveConf);
 }
 
