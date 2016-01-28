@@ -223,6 +223,20 @@
 			},
 			message: "非法格式。不能为空。"
 		},
+		"strlen": {
+			method: function(val, from, to) {
+				if (typeof to == "undefined") {
+					return $.trim(val).length == parseInt(from) ? true : false;
+				} else {
+					if ($.trim(val).length >= parseInt(from) && $.trim(val).length <= parseInt(to)) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			},
+			message: "非法格式。"
+		},
 		"name": {
 			method: function(val) {
 				var len = 0;

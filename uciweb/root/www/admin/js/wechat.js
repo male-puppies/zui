@@ -1,6 +1,5 @@
 
 var g_post = {
-	// "switch": "",
 	"shop_name": "",
 	"ssid": "",
 	"shop_id": "",
@@ -9,10 +8,10 @@ var g_post = {
 };
 
 $(function(){
-	// createInitModal();
-	// verifyEventsInit();
+	createInitModal();
+	verifyEventsInit();
 	initEvents();
-	// initData();
+	initData();
 });
 
 function createInitModal() {
@@ -24,19 +23,21 @@ function createInitModal() {
 
 function initData() {
 	cgicall('WxShopList', function(d) {
-		jsonTraversal(d, jsTravSet);
-		if (typeof d.switch != "undefined" && d.switch == "1") {
-			$(".account-tips").show();
-			$(".form-group input").prop("disabled", true);
-		} else {
-			$(".account-tips").hide();
-			$(".form-group input").prop("disabled", false);
+		if (d.status == 0) {
+			jsonTraversal(d.data, jsTravSet);
+			if (typeof d.data.switch != "undefined" && d.data.switch == "1") {
+				$(".account-tips").show();
+				$(".form-group input").prop("disabled", true);
+			} else {
+				$(".account-tips").hide();
+				$(".form-group input").prop("disabled", false);
+			}
 		}
 	})
 }
 
 function initEvents() {
-	// $('#btn_submit').on('click', saveConf);
+	$('.submit').on('click', saveConf);
 	$('[data-toggle="tooltip"]').tooltip();
 }
 

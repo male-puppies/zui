@@ -25,7 +25,7 @@
 <script src="../../js/black/bootstrap.min.js"></script>
 <script src="../../js/jquery.ext.verify.js"></script>
 <script src="../../js/commin.js"></script>
-<script src="../../js/account.js"></script>
+<script src="../../js/wechat.js"></script>
 </head>
 <body>
 <!-- header -->
@@ -43,7 +43,7 @@
 				<div class="form-group clearfix">
 					<label class="col-md-2 col-sm-3 col-xs-4 control-label"></label>
 					<div class="col-md-10 col-sm-9 col-xs-8">
-						<p style="line-height:30px;font-size:14px;">以下信息来自微信公众号后台的微信连WiFi的设备管理的设备改造信息。</p>
+						<p style="line-height:34px;font-size:14px;">以下信息来自微信公众号后台的微信连WiFi的设备管理的设备改造信息。</p>
 					</div>
 				</div>
 				
@@ -66,19 +66,28 @@
 				<div class="form-group clearfix">
 					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="shop_id">Shop Id</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
-						<input type="text" id="shop_id" class="form-control" verify="notspace" />
+						<input type="text" id="shop_id" class="form-control" verify="num 1000000 9999999" />
+					</div>
+					<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+						<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入7位数字。"><i class="icon-question-sign"></i></span>
 					</div>
 				</div>
 				<div class="form-group clearfix">
 					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="appid">AppId</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
-						<input type="text" id="appid" class="form-control" verify="notspace" />
+						<input type="text" id="appid" class="form-control" verify="strlen 18" />
+					</div>
+					<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+						<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入18位字符。"><i class="icon-question-sign"></i></span>
 					</div>
 				</div>
 				<div class="form-group clearfix">
 					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="secretkey">SecretKey</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
-						<input type="text" id="secretkey" class="form-control" verify="notspace" />
+						<input type="text" id="secretkey" class="form-control" verify="strlen 32" />
+					</div>
+					<div class="col-md-7 col-sm-5 col-xs-3 tip-icons">
+						<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入32位字符。"><i class="icon-question-sign"></i></span>
 					</div>
 				</div>
 			</form>

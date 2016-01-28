@@ -1,7 +1,7 @@
 
 var g_post = {
-	// "switch": "",
-	"accoutn": "",
+	"switch": "",
+	"account": "",
 	"ac_host": "",
 	"descr": ""
 };
@@ -22,12 +22,16 @@ function createInitModal() {
 
 function initData() {
 	cgicall('AccountList', function(d) {
-		jsonTraversal(d, jsTravSet);
-		if (typeof d.state != "undefined" && d.state == 1) {
-			$(".connet-account").show().find("p").html(d.host);
-		} else {
-			$(".connet-account").hide();
+		if (d.status == 0) {
+			g_post.ac_port = d.data.ac_port || "";
+			jsonTraversal(d.data, jsTravSet);
+			if (typeof d.data.state.state != "undefined" && d.data.state.state == 1) {
+				$(".connet-account").show().find("p").html(d.host);
+			} else {
+				$(".connet-account").hide();
+			}
 		}
+		
 	})
 }
 
