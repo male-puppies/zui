@@ -114,11 +114,27 @@ function DoReset() {
 	});
 }
 
+function DoOnlineup() {
+	$("#modal_tips").modal("hide");
+	$("#modal_tips").one("hidden.bs.modal", function() {
+		cgicall("ACUpgrade", function(d) {
+			if (d.status == 0) {
+				$("#modal_spin .modal-body p").html("正在下载最新固件，成功后将会自动升级！<br>请稍候...");
+				$("#modal_spin").modal("show");
+			} else {
+				createModalTips("在线升级失败！");
+			}
+		});
+	});
+}
+
 function initEvents() {
 	$(".download").on("click", OnDownload);
 	$(".upload").on("click", OnUpload);
 	$(".reset").on("click", OnReset);
 	$(".brush").on("click", OnBrush);
+	$(".checkver").on("click", OnCheckver);
+	$(".onlineup").on("click", OnOnlineup);
 	
 	$('[data-toggle="tooltip"]').tooltip();
 }
@@ -174,4 +190,29 @@ function OnBrush() {
 	$("#modal_spin").modal("show");
 	$("#brush").ajaxSubmit(options);
 	return false;
+}
+
+function OnCheckver() {
+	$("#modal_spin .modal-body p").html("检测中...");
+	$("#modal_spin").modal("show");
+
+	cgicall("ACChkNew", function(d) {
+		if (d.status == 0 && d.data != "") {
+			$("#modal_spin").modal("hide");
+			$("#modal_spin").one("hidden.bs.modal", function() {
+				$(".ospan").html(d.data);
+				$(".ononline").show();
+			});
+		} else {
+			$("#modal_spin").modal("hide");
+			$("#modal_spin").one("hidden.bs.modal", function() {
+				createModalTips("已是最新版本！");
+				$(".ononline").hide();
+			});
+		}
+	})
+}
+
+function OnOnlineup() {
+	createModalTips("在线升级会在后台下载固件文件，成功后会自动进行升级并重启设备。</br>是否确认进行在线升级？", "DoOnlineup");
 }

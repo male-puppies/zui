@@ -79,17 +79,39 @@
 					</div>
 				</div>
 				<div class="form-group clearfix">
-					<label class="col-md-2 col-sm-3 col-xs-4 control-label">固件文件</label>
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label">本地固件文件</label>
 					<div class="col-md-4 col-sm-5 col-xs-6">
 						<div class="input-group">
-							<input id="UploadBrush" name="UploadBrush" type="file" class="form-control file" verify="upload bin" value="" />
+							<input id="UploadBrush" name="UploadBrush" type="file" class="form-control file" value="" />
 							<span class="input-group-btn">
 								<a class="btn btn-zx brush"><i class="icon-refresh"></i> 刷写固件</a>
 							</span>
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-4 col-xs-2 tip-icons">
-						<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="请选择后缀名为 .bin 格式的文件。"><i class="icon-question-sign"></i></span>
+						<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="上传固件，进行本地升级。"><i class="icon-question-sign"></i></span>
+					</div>
+				</div>
+			</form>
+		</div>
+		
+		<div class="main-wrapper clearfix">
+			<div class="main-top">
+				<span class="title"><i class="icon-align-justify"></i> 在线升级</span>
+			</div>
+			<form id="brush" class="form-horizontal">
+				<div class="form-group clearfix">
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="keep">版本检测</label>
+					<div class="col-md-3 col-sm-4 col-xs-5">
+						<a class="btn btn-zx checkver"><i class="icon-search"></i> 检测新版本</a>
+						<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="在线检测是否拥有新的固件文件。"><i class="icon-question-sign"></i></span>
+					</div>
+				</div>
+				<div class="form-group clearfix ononline" style="color:#d9534f;display:none;">
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="keep">最新固件</label>
+					<div class="col-md-3 col-sm-4 col-xs-5">
+						<span class="ospan" style="padding-right:15px;"></span>
+						<a class="btn btn-danger onlineup"><i class="icon-refresh"></i> 开始在线升级</a>
 					</div>
 				</div>
 			</form>

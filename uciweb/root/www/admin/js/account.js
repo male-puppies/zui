@@ -25,7 +25,7 @@ function initData() {
 		if (d.status == 0) {
 			g_post.ac_port = d.data.ac_port || "";
 			jsonTraversal(d.data, jsTravSet);
-			if (typeof d.data.state.state != "undefined" && d.data.state.state == 1) {
+			if (typeof d.data.state.state != "undefined" && d.data.state.state == 1 && d.data.switch == 1) {
 				$(".connet-account").show().find("p").html(d.data.state.host);
 			} else {
 				$(".connet-account").hide();
