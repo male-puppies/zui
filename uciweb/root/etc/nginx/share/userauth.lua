@@ -62,10 +62,38 @@ end
 
 uri_map["/wxlogin2info"] = function() 
 	local remote_ip = ngx.var.remote_addr
+	local args = ngx.req.get_uri_args()
+	local mac, ip = args.mac, args.ip 
+	if not (mac and ip) then 
+		return reply(1, "invalid param 1")
+	end 
+
+	if not (mac:find(mac_pattern) and ip:find(ip_pattern)) then  
+		return reply(1, "invalid param 2")
+	end 
+
+	if remote_ip ~= ip then 
+		return reply(1, "invalid param 3")
+	end
+
+	local now = args.now 
+	if not now then
+		ngx.req.read_body()
+		local map = ngx.req.get_post_args()
+		now = map.now 
+	end 
+
+	if not now then 
+		return reply(1, "invalid param 4")
+	end
+
 	local param = {
 		cmd = uri, 
-		ip = remote_ip,  
+		ip = ip,  
+		mac = mac,
+		now = now,
 	}
+	
 	local res, err = query.query(host, port, param)
 	local _ = res and reply_table(res) or reply(1, err)
 end
