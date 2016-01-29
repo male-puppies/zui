@@ -1,5 +1,6 @@
 var oTabAPs,
 	oTabNaps,
+	oTabUpgrade,
 	nodeEdit = [],
 	dtCountry,
 	clearInitData,
@@ -40,6 +41,7 @@ var oTabAPs,
 $(function() {
 	oTabAPs = createDtAps();
 	oTabNaps = createDtNaps();
+	oTabUpgrade = createDtUpgrade();
 	createInitModal();
 	verifyEventsInit();
 	initEvents();
@@ -275,8 +277,41 @@ function createDtNaps() {
 	});
 }
 
+function createDtUpgrade() {
+	return $("#table_upgrade").dataTable({
+		"pagingType": "full_numbers",
+		"language": {"url": '../../js/black/dataTables.chinese.json'},
+		"columns": [
+			{
+				"data": "cur",
+				"render": function(d, t, f) {
+					if (d && d != "") {
+						return d;
+					} else {
+						return "--";
+					}
+				}
+			},
+			{
+				"data": "new",
+				"render": function(d, t, f) {
+					if (d && d != "") {
+						if (f.cur != d) {
+							return "<span style='color: #d9534f;'>" + d + "</span>";
+						} else {
+							return "--";
+						}
+					} else {
+						return "--";
+					}
+				}
+			}
+		]
+	});
+}
+
 function createInitModal() {
-	$("#modal_edit, #modal_columns, #modal_naps, #modal_tips").modal({
+	$("#modal_edit, #modal_upgrade, #modal_columns, #modal_naps, #modal_tips").modal({
 		"backdrop": "static",
 		"show": false
 	});
@@ -471,7 +506,47 @@ function DoUpgrade() {
 				createModalTips("升级失败！" + (d.data ? d.data : ""));
 			}
 		}
+		cgicallBack(d, "#modal_upgrade", func);
+	});
+}
+
+function DoDown() {
+	cgicall('ApmFWDownload', function(d) {
+		var func = {
+			"sfunc": function() {
+				createModalTips("正在下载，稍后可进行升级...", "DoDownAfter");
+				$("#modal_tips .btn-modal").val("打开升级列表");
+			},
+			"ffunc": function() {
+				createModalTips("下载失败！" + (d.data ? d.data : ""));
+			}
+		}
+		cgicallBack(d, "#modal_upgrade", func);
+	});
+}
+
+function DoDownAfter() {
+	cgicall("ApmFirewareList", function(d) {
+		var func = {
+			"sfunc": function() {
+				dtRrawData(oTabUpgrade, dtObjToArray(d.data));
+				$("#modal_upgrade").modal("show");
+			},
+			"ffunc": function() {
+				createModalTips("加载失败！");
+			}
+		}
 		cgicallBack(d, "#modal_tips", func);
+	});
+}
+
+function DoRefresh() {
+	cgicall("ApmFirewareList", function(d) {
+		if (d.status == 0) {
+			dtRrawData(oTabUpgrade, dtObjToArray(d.data));
+		} else {
+			alert("刷新失败！");
+		}
 	});
 }
 
@@ -505,7 +580,7 @@ function initEvents() {
 	$('.edit').on('click', function() {edit()}); //编辑
 	$('.restart').on('click', OnRestart); //重启AP
 	$('.upgrade').on('click', OnUpgrade); //升级AP
-	$('.download').on('click', OnDownload); //下载AP固件
+	// $('.download').on('click', OnDownload); //下载AP固件
 	$('.reset').on('click', OnReset); //恢复出厂配置
 	$('.delete').on('click', function() {OnDelete()}); //删除
 	$('.hidecol').on('click', OnHidecol);
@@ -561,6 +636,23 @@ function OnUpgrade() {
 	}
 	cgicall("ApmFirewareList", function(d) {
 		if (d.status == 0) {
+			dtRrawData(oTabUpgrade, dtObjToArray(d.data));
+			$("#modal_upgrade").modal("show");
+		} else {
+			createModalTips("加载升级列表失败！请尝试重新加载！");
+		}
+	});
+}
+
+/* 
+function OnUpgrade() {
+	getSelected();
+	if (nodeEdit.length < 1) {
+		createModalTips("选择要升级的AP！");
+		return;
+	}
+	cgicall("ApmFirewareList", function(d) {
+		if (d.status == 0) {
 			var data = dtObjToArray(d.data),
 				strHtml = '';
 			
@@ -579,7 +671,9 @@ function OnUpgrade() {
 		}
 	});
 }
+ */
 
+/* 
 function OnDownload() {
 	getSelected();
 	if (nodeEdit.length < 1) {
@@ -604,6 +698,7 @@ function OnDownload() {
 		}
 	})
 }
+ */
 
 function OnReset() {
 	getSelected();
