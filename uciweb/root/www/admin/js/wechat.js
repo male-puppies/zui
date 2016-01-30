@@ -1,5 +1,6 @@
 
 var g_post = {
+	"wx": "",
 	"shop_name": "",
 	"ssid": "",
 	"shop_id": "",
