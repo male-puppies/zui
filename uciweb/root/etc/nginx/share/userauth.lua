@@ -6,13 +6,14 @@ local host, port = "127.0.0.1", 9989
 local ip_pattern = "^[0-9]+%.[0-9]+%.[0-9]+%.[0-9]+$"
 local mac_pattern = "^[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]$"
 
-local function reply_table(res)
-	ngx.say(js.encode(res))
+local function reply_str(str)
+	assert(type(str) == "string")
+	ngx.say(str)
 	return true 
 end
 
 local function reply(st, v)
-	return reply_table({status = st, data = v}) 
+	return reply_str(js.encode({status = st, data = v}))
 end
 
 local uri_map = {}
@@ -23,7 +24,7 @@ uri_map["/cloudonline"] = function()
 		ip = remote_ip,  
 	}
 	local res, err = query.query(host, port, param)
-	local _ = res and reply_table(res) or reply(1, err)
+	local _ = res and reply_str(res) or reply(1, err)
 end
 
 uri_map["/cloudlogin"] = function() 
@@ -57,7 +58,7 @@ uri_map["/cloudlogin"] = function()
 	}
 
 	local res, err = query.query(host, port, param)
-	local _ = res and reply_table(res) or reply(1, err)
+	local _ = res and reply_str(res) or reply(1, err)
 end
 
 uri_map["/wxlogin2info"] = function() 
@@ -95,16 +96,20 @@ uri_map["/wxlogin2info"] = function()
 	}
 	
 	local res, err = query.query(host, port, param)
-	local _ = res and reply_table(res) or reply(1, err)
+	local _ = res and reply_str(res) or reply(1, err)
 end
 
 uri_map["/weixin2_login"] = function() 
 	local remote_ip = ngx.var.remote_addr
 
-	ngx.req.read_body()
-	local map = ngx.req.get_post_args()
-
-	local extend, openid = map.extend, map.openId
+	local map = ngx.req.get_uri_args()
+	local extend, openid = map.extend, map.openId	
+	if not extend then 
+		ngx.req.read_body()
+		local map = ngx.req.get_post_args()
+		extend, openid = map.extend, map.openId	
+	end
+	
 	if not (extend and openid) then 
 		ngx.exit(ngx.HTTP_FORBIDDEN)
 		return
@@ -118,13 +123,37 @@ uri_map["/weixin2_login"] = function()
 	}
 
 	local res, err = query.query(host, port, param)
-	local _ = res and reply_table(res) or reply(1, err)
+	local _ = res and reply_str(res) or reply(1, err)
 end
 
+
+uri_map["/authopt"] = function() 
+	local remote_ip = ngx.var.remote_addr
+
+	local map = ngx.req.get_uri_args()
+	local ip, mac = map.ip, map.mac
+	if not (mac:find(mac_pattern) and ip:find(ip_pattern)) then  
+		return reply(1, "invalid param 2")
+	end 
+
+	if remote_ip ~= ip then 
+		return reply(1, "invalid param 3")
+	end
+
+	local param = {
+		cmd = uri,
+		ip = remote_ip,
+		mac = mac,
+	}
+
+	local res, err = query.query(host, port, param)
+	local _ = res and reply_str(res) or reply(1, err) 
+end
+
+
 local func = uri_map[uri]
-if not func then 
-	ngx.say('{"status":1, "msg":"invalid uri"}')
-	return
-end 
+if not func then
+	return reply(1, "invalid uri")
+end
 
 return func()
