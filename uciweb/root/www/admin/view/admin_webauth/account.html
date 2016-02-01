@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
-<title>无线优化</title>
+<title>云端管理</title>
 <link rel="stylesheet" href="../../css/bootstrap.min.css" />
 <link rel="stylesheet" href="../../css/font-awesome.min.css">
 <!--[if IE 7]><link rel="stylesheet" href="../../css/font-awesome-ie7.min.css"><![endif]-->
@@ -15,8 +15,9 @@
 <script src="../../js/black/jquery.cookie.js"></script>
 <script src="../../js/black/json2.js"></script>
 <script src="../../js/black/bootstrap.min.js"></script>
+<script src="../../js/jquery.ext.verify.js"></script>
 <script src="../../js/commin.js"></script>
-<script src="../../js/optimization.js"></script>
+<script src="../../js/account.js"></script>
 </head>
 <body>
 <!-- header -->
@@ -28,16 +29,21 @@
 	<div class="container-fluid">
 		<div class="main-wrapper clearfix">
 			<div class="main-top">
-				<span class="title"><i class="icon-align-justify"></i> AP隔离</span>
+				<span class="title"><i class="icon-align-justify"></i> 是否启用云端管理</span>
 			</div>
-			
 			<form class="form-horizontal">
 				<div class="form-group clearfix">
-					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="isolation__ienable">启用</label>
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="switch">启用云端管理</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
 						<div class="checkbox">
-							<label><input type="checkbox" id="isolation__ienable" value="0 1" /></label>
+							<label><input type="checkbox" id="switch" value="1 0" /></label>
 						</div>
+					</div>
+				</div>
+				<div class="form-group clearfix connet-account" style="color:#d9534f;display:none;">
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label">已连接云端地址</label>
+					<div class="col-md-3 col-sm-4 col-xs-5">
+						<p style="line-height:34px;"></p>
 					</div>
 				</div>
 			</form>
@@ -45,64 +51,30 @@
 		
 		<div class="main-wrapper clearfix">
 			<div class="main-top">
-				<span class="title"><i class="icon-align-justify"></i> 射频提速</span>
+				<span class="title"><i class="icon-align-justify"></i> 基础选项</span>
 			</div>
 			<form class="form-horizontal">
 				<div class="form-group clearfix">
-					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="broadcast__inspeed">广播提速</label>
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="account">帐号</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
-						<select id="broadcast__inspeed" class="form-control">
-							<option value="0" selected>自动提速</option>
-							<option value="2">2 Mbps</option>
-							<option value="5.5">5.5 Mbps</option>
-							<option value="11">11 Mbps</option>
-							<option value="18">18 Mbps</option>
-							<option value="36">36 Mbps</option>
-						</select>
+						<input type="text" id="account" class="form-control" verify="notspace" />
 					</div>
 				</div>
 				<div class="form-group clearfix">
-					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="broadcast__rate">终端速率限制</label>
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="ac_host">地址</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
-						<select id="broadcast__rate" class="form-control">
-							<option value="0">关闭</option>
-							<option value="2" selected>1 Mbps</option>
-							<option value="4">2 Mbps</option>
-							<option value="11">5.5 Mbps</option>
-						</select>
+						<input type="text" id="ac_host" class="form-control" verify="notspace" />
 					</div>
 				</div>
 				<div class="form-group clearfix">
-					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="broadcast__mult">启用多播优化</label>
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="descr">描述</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
-						<div class="checkbox">
-							<label><input type="checkbox" id="broadcast__mult" value="1 0" /></label>
-						</div>
+						<input type="text" id="descr" class="form-control" verify="notspace" />
 					</div>
 				</div>
 			</form>
 		</div>
-		
-		<div class="main-wrapper clearfix">
-			<div class="main-top">
-				<span class="title"><i class="icon-align-justify"></i> 射频调度</span>
-			</div>
-			<div class="container-fluid">
-				<div class="row">
-					<form class="form-horizontal">
-						<div class="form-group clearfix">
-							<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="average__enable">启用用户间平均分配带宽</label>
-							<div class="col-md-3 col-sm-4 col-xs-5">
-								<div class="checkbox">
-									<label><input type="checkbox" id="average__enable" value="1 0" /></label>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		
+
 		<div class="main-wrapper clearfix" style="padding:10px 20px">
 			<div class="btn-group">
 				<a class="btn btn-zx submit"><i class="icon-save"></i>保存</a>

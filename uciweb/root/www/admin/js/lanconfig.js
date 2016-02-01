@@ -106,10 +106,12 @@ function OnSubmit() {
 			sameip.push($("#lan" + i + "__ipaddr").val())
 		}
 	}
-	if (/(\x0f[^\x0f]+)\x0f[\s\S]*\1/.test("\x0f" + sameip.join("\x0f\x0f") + "\x0f")) {
+
+	if (isRepeat(sameip)) {
 		createModalTips("IP地址不能相同！");
 		return;
 	}
+
 	var mark = true;
 	$("#lan0__netmask, #lan1__netmask, #lan2__netmask, #lan3__netmask").each(function(index, element) {
 		var num = verifys(element);
@@ -319,4 +321,13 @@ function verifyMask(val) {
 	}
 	
 	return true;
+}
+
+function isRepeat(arr) {
+	var hash = {};
+	for(var i in arr) {
+		if (hash[arr[i]]) return true;
+		hash[arr[i]] = true;
+	}
+	return false;
 }

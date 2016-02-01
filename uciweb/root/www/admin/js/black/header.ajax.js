@@ -2,7 +2,7 @@ $.ajax("../ajax/sidebar.html", {
 	type: "GET",
 	dataType: "html",
 	async: false,
-	cache: true,
+	cache: false,
 	error: function() {
 		console.log("error ajax header.html!")
 	},

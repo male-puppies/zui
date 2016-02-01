@@ -223,6 +223,20 @@
 			},
 			message: "非法格式。不能为空。"
 		},
+		"strlen": {
+			method: function(val, from, to) {
+				if (typeof to == "undefined") {
+					return $.trim(val).length == parseInt(from) ? true : false;
+				} else {
+					if ($.trim(val).length >= parseInt(from) && $.trim(val).length <= parseInt(to)) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+			},
+			message: "非法格式。"
+		},
 		"name": {
 			method: function(val) {
 				var len = 0;
@@ -236,7 +250,7 @@
 						len += 3;
 					}
 				}
-				var reg = /^[a-zA-Z0-9-_.\u4e00-\u9fa5]{4,32}$/;
+				var reg = /^[a-zA-Z0-9-_.\u4e00-\u9fa5]{1,32}$/;
 				var mark = (reg.test(val)) ? true : false;
 				if (len <= 32 && mark) {
 					return true;
@@ -244,7 +258,7 @@
 					return false;
 				}
 			},
-			message:"非法格式。只能包含中文、数字、字母、‘-’、‘.’ 和下划线，不允许空格。长度范围4~32个字符，不超过10个中文。"				
+			message:"非法格式。只能包含中文、数字、字母、‘-’、‘.’ 和下划线，不允许空格。长度范围1~32个字符，不超过10个中文。"				
 		},
 		"pwd": {
 			method: function(val) {
