@@ -50,7 +50,7 @@ end
 
 if view == 1 then
 	if not verification() then
-		ngx.redirect("/admin/login/admin_login/login.html")
+		ngx.redirect("/admin/login/admin_login/tologin.html")
 	end
 elseif call == 1 then
 	if not verification() then
