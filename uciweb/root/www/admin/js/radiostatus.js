@@ -128,14 +128,14 @@ function createDtWlanstate() {
 		"language": {"url": "../../js/black/dataTables.chinese.json"},
 		"columns": [
 			{
-				"mData": "ath"
+				"data": "ath"
 			},
 			{
-				"mData": "essid"
+				"data": "essid"
 			},
 			{
-				"mData": "bssid",
-				"mRender": function(d, t, f) {
+				"data": "bssid",
+				"render": function(d, t, f) {
 					if ("bssid" in f) {
 						return d;
 					} else {
@@ -144,14 +144,14 @@ function createDtWlanstate() {
 				}
 			},
 			{
-				"mData": "rate",
-				"mRender": function(d) {
+				"data": "rate",
+				"render": function(d) {
 					return d + 'Mb/s';
 				}
 			},
 			{
-				"mData": "users",
-				"mRender": function(d, t, f){
+				"data": "users",
+				"render": function(d, t, f){
 					return '<a class="underline" href="onlineuser.html?filter=' + wlanStateID.apid + '||' + f.essid + '||' + wlanStateID.band +'">' + d + '</a>';
 				}
 			}
@@ -166,18 +166,18 @@ function createDtNeighbor() {
 		"language": {"url": "../../js/black/dataTables.chinese.json"},
 		"columns": [
 			{
-				"mData": "ssid"
+				"data": "ssid"
 			},
 			{
-				"mData": "bssid"
+				"data": "bssid"
 			},
 			{
-				"mData": "channel_id"
+				"data": "channel_id"
 			},
 			{
-				"mData": "rssi",
+				"data": "rssi",
 				"sWidth": 180,
-				"mRender": function(d, t, f){
+				"render": function(d, t, f){
 					return '<div class="prorssi" value="' + RssiConvert(d) + '"><div class="prorssi-bar" style="width:'+RssiConvert(d)+'%;"></div><div class="prorssi-tip">' + d + 'dBm</div></div>';
 				}
 			}
