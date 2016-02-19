@@ -7,7 +7,7 @@ local function query(host, port, map, timeout)
         return nil, err 
     end
 
-    sock:settimeout(timeout or 3000)
+    sock:settimeout(timeout or 10000)
 
     local ret, err = sock:connect(host, port)
     if not ret then

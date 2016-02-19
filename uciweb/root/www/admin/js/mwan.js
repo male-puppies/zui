@@ -199,6 +199,19 @@ function OnSubmit() {
 }
 
 function OnEnable(that) {
+	var mark = true;
+	$(".enable").each(function(index, element) {
+		if ($(element).is(":checked") && !($(element).is(":disabled"))) {
+			mark = false;
+		}
+	});
+	if (mark) {
+		$(".radio").find("input").prop("disabled", true);
+	} else {
+		$(".radio").find("input").prop("disabled", false);
+		OnRadios();
+	}
+	
 	if (typeof that != "undefined") {
 		checked(that)
 	} else {
@@ -206,7 +219,7 @@ function OnEnable(that) {
 			checked(element);
 		});
 	}
-	
+
 	function checked(_that) {
 		if ($(_that).is(":checked") && !($(_that).is(":disabled"))) {
 			$(_that).closest(".input-group").children("input").prop("disabled", false);
