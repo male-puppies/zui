@@ -18,6 +18,13 @@
     color: #d9534f;
     font-weight: normal;
 }
+.expire {
+	width: 25%;
+	display: inline;
+}
+#counter__success {
+	margin-right: 10px;
+}
 </style>
 <script src="../../js/black/jquery-1.11.3.min.js"></script>
 <script src="../../js/black/jquery.cookie.js"></script>
@@ -77,9 +84,9 @@
 				<div class="form-group clearfix">
 					<label class="col-md-2 col-sm-3 col-xs-4 control-label">认证码有效期</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
-						<input type="text" id="expire1" class="form-control" style="width:25%;display:inline;" value="0" verify="num" />天
-						<input type="text" id="expire2" class="form-control" style="width:25%;display:inline;" value="0" verify="num 0 23" />时
-						<input type="text" id="expire3" class="form-control" style="width:25%;display:inline;" value="0" verify="num 0 59" />分
+						<input type="text" id="expire1" class="form-control expire" value="0" verify="num" />天
+						<input type="text" id="expire2" class="form-control expire" value="0" verify="num 0 23" />时
+						<input type="text" id="expire3" class="form-control expire" value="0" verify="num 0 59" />分
 					</div>
 				</div>
 				<div class="form-group clearfix">
@@ -103,8 +110,8 @@
 				<div class="form-group clearfix">
 					<label class="col-md-2 col-sm-3 col-xs-4 control-label">认证短信发送条数</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
-						成功：<input type="text" id="counter__success" class="form-control" style="width:25%;display:inline;margin-right:10px;" disabled="disabled" value="0" />
-						失败：<input type="text" id="counter__fail" class="form-control" style="width:25%;display:inline;" disabled="disabled" value="0"  />
+						成功：<input type="text" id="counter__success" class="form-control expire" disabled="disabled" value="0" />
+						失败：<input type="text" id="counter__fail" class="form-control expire" disabled="disabled" value="0"  />
 					</div>
 					<div class="col-md-7 col-sm-5 col-xs-3  tip-icons">
 						<input type="button" class="btn btn-zx smsreset" value="清零" />
