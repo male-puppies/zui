@@ -281,7 +281,7 @@ function OnAddAuth() {
 
 function OnSubmit() {
 	var val = $.trim($("#AuthUrl").val());
-	if (val.substring(0, 7) != "http://" && val.substring(0, 8) != "https://") {
+	if (val.substring(0, 7) != "http://" && val.substring(0, 8) != "https://" && val != "") {
 		val = "http://" + val;
 	}
 	var obj = {
