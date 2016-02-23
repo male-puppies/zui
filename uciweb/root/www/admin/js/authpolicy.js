@@ -62,7 +62,7 @@ function createDtAuth() {
 				"data": "type",
             	"render": function (d, t, f) {
 					if (d  ==  "web") {
-						return 'Web认证';
+						return 'Portal认证';
 					} else {
 						return '自动认证';
 					}
