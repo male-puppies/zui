@@ -29,12 +29,14 @@ end
 
 uri_map["/cloudlogin"] = function() 
 	local remote_ip = ngx.var.remote_addr
-	
+	local args = ngx.req.get_uri_args()
+	local mac, ip = args.mac, args.ip
+
 	ngx.req.read_body()
 	local map = ngx.req.get_post_args()
-	local ip, mac, username, password = map.ip, map.mac, map.username, map.password
+	local username, password = map.username or map.UserName, map.password or map.Password
 	if not (ip and mac and username and password) then 
-		return reply(1, "invalid param")
+		return reply(1, "invalid param ")
 	end 
 
 	if not (#username > 0 and #username <= 16 and #password >= 4 and #password <= 16) then  
@@ -150,32 +152,6 @@ uri_map["/authopt"] = function()
 	local _ = res and reply_str(res) or reply(1, err) 
 end
 
-uri_map["/cloudlogin"] = function() 
-	local remote_ip = ngx.var.remote_addr
-	local args = ngx.req.get_uri_args()
-	local mac, ip = args.mac, args.ip
-	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then  
-		return reply(1, "invalid param 2")
-	end 
-
-	ngx.req.read_body()
-	local map = ngx.req.get_post_args()
-	local username, password = map.username, map.password
-
-	if not (username and password and #username > 0 and #password > 0) then 
-		return reply(1, "invalid param 3")
-	end 
-
-	local param = {
-		cmd = uri,
-		ip = ip,
-		mac = mac,
-		username = username,
-		password = password,
-	}
-	local res, err = query.query(host, port, param)
-	local _ = res and reply_str(res) or reply(1, err) 
-end
 
 uri_map["/PhoneNo"] = function() 
 	local remote_ip = ngx.var.remote_addr
