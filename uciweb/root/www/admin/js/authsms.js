@@ -40,9 +40,9 @@ function initData() {
 
 function setExpire(d) {
 	var num = parseInt(d.expire);
-	$("#expire1").val(parseInt(parseInt(num)/86400));
-	$("#expire2").val(parseInt((parseInt(num)%86400)/3600));
-	$("#expire3").val(parseInt((parseInt(num)%3600)/60));
+	$("#expire1").val(parseInt(num/1440));
+	$("#expire2").val(parseInt((num%1440)/60));
+	$("#expire3").val(parseInt(num%60));
 }
 
 function initEvents() {
@@ -56,7 +56,7 @@ function saveConf() {
 	if (!verification()) return false;
 	
 	var obj = jsonTraversal(g_post, jsTravGet);
-	obj.expire = parseInt($("#expire1").val())*86400 + parseInt($("#expire2").val())*3600 + parseInt($("#expire3").val())*60;
+	obj.expire = parseInt($("#expire1").val())*1440 + parseInt($("#expire2").val())*60 + parseInt($("#expire3").val());
 	cgicall('SmsSet', obj, function(d) {
 		if (d.status == 0) {
 			initData();

@@ -13,6 +13,7 @@ $(function() {
 	createInitModal();
 	verifyEventsInit();
 	initEvents();
+	initData2();
 });
 
 function createDtAuth() {
@@ -112,6 +113,14 @@ function createInitModal() {
 	$("#modal_edit, #modal_tips").modal({
 		"backdrop": "static",
 		"show": false
+	});
+}
+
+function initData2() {
+	cgicall("AuthOptList", function(d) {
+		if (d.status == 0 && typeof d.data != "undefined" && typeof d.data.redirect != "undefined") {
+			$("#AuthUrl").val(d.data.redirect);
+		}
 	});
 }
 
@@ -259,6 +268,7 @@ function DoDelete() {
 
 function initEvents() {
 	$('.add').on('click', OnAddAuth);
+	$('.submit').on('click', OnSubmit)
 	$('[data-toggle="tooltip"]').tooltip();
 }
 
@@ -267,6 +277,24 @@ function OnAddAuth() {
 	$('#name').prop("disabled", false);
 	$('#iprange,input:radio[name="type"]').prop("disabled", false);
 	$('#modal_edit').modal("show");
+}
+
+function OnSubmit() {
+	var val = $.trim($("#AuthUrl").val());
+	if (val.substring(0, 7) != "http://" && val.substring(0, 8) != "https://") {
+		val = "http://" + val;
+	}
+	var obj = {
+		redirect: val
+	}
+	cgicall("AuthOptSet", obj, function(d) {
+		if (d.status == 0) {
+			initData2();
+			createModalTips("保存成功！");
+		} else {
+			createModalTips("保存失败！" + (d.data ? d.data : ""));
+		}
+	})
 }
 
 function OnDelete(name){
