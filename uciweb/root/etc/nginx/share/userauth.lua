@@ -179,6 +179,31 @@ uri_map["/PhoneNo"] = function()
 	local _ = res and reply_str(res) or reply(1, err) 
 end
 
+uri_map["/webui/login.html"] = function() 
+	local remote_ip = ngx.var.remote_addr
+	local args = ngx.req.get_uri_args()
+	local mac, ip = args.mac, args.ip
+	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then  
+		return reply(1, "invalid param 1 " .. string.format("%s %s ---", ip, mac))
+	end
+
+	local param = {
+		cmd = uri,
+		ip = ip,
+		mac = mac, 
+	}
+	
+	query.query(host, port, param)
+	local fp, s = io.open("/tmp/www/webui/login.html")
+	if fp then 
+		s = fp:read("*a")
+		fp:close()
+	else 
+		s = "error"
+	end 
+	reply_str(s)
+end
+
 local func = uri_map[uri]
 if not func then
 	return reply(1, "invalid uri")
