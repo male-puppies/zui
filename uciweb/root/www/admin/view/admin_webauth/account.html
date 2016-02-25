@@ -29,25 +29,47 @@
 	<div class="container-fluid">
 		<div class="main-wrapper clearfix">
 			<div class="main-top">
+				<span class="title"><i class="icon-align-justify"></i> 是否启用云端认证模板</span>
+			</div>
+			<form class="form-horizontal">
+				<div class="form-group clearfix">
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="switch">启用云端认证模板</label>
+					<div class="col-md-3 col-sm-4 col-xs-5">
+						<div class="checkbox">
+							<label><input type="checkbox" id="switch" value="1 0" /></label>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		
+		<div class="main-wrapper clearfix">
+			<div class="main-top">
 				<span class="title"><i class="icon-align-justify"></i> 基础选项</span>
 			</div>
 			<form class="form-horizontal">
 				<div class="form-group clearfix">
 					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="account">帐号</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
-						<input type="text" id="account" class="form-control" verify="notspace" />
+						<input type="text" id="account" class="form-control" />
 					</div>
 				</div>
 				<div class="form-group clearfix">
 					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="ac_host">地址</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
-						<input type="text" id="ac_host" class="form-control" verify="notspace" />
+						<input type="text" id="ac_host" class="form-control" />
 					</div>
 				</div>
 				<div class="form-group clearfix">
 					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="descr">描述</label>
 					<div class="col-md-3 col-sm-4 col-xs-5">
-						<input type="text" id="descr" class="form-control" verify="notspace" />
+						<input type="text" id="descr" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group clearfix connet-account">
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label">云端连接状态</label>
+					<div class="col-md-3 col-sm-4 col-xs-5">
+						<p style="line-height:34px;"></p>
 					</div>
 				</div>
 			</form>

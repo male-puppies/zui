@@ -25,6 +25,11 @@ function initData() {
 		if (d.status == 0) {
 			g_post.ac_port = d.data.ac_port || "";
 			jsonTraversal(d.data, jsTravSet);
+			if (typeof d.data.state.state != "undefined" && d.data.state.state == 1) {
+				$(".connet-account").css("color", "#4cae4c").find("p").html("已连接 " + d.data.state.host);
+			} else {
+				$(".connet-account").css("color", "#d9534f").find("p").html("未连接");
+			}
 		}
 	})
 }

@@ -30,6 +30,25 @@
 <div id="main" class="main">
 	<div class="container-fluid">
 		<div class="main-wrapper clearfix">
+			<div class="main-top">
+				<span class="title"><i class="icon-align-justify"></i> Portal认证选项</span>
+			</div>
+			<form class="form-horizontal">
+				<div class="form-group clearfix">
+					<label class="col-md-2 col-sm-3 col-xs-4 control-label" for="AuthUrl">成功后重定向至</label>
+					<div class="col-md-3 col-sm-4 col-xs-5">
+						<input type="text" id="AuthUrl" class="form-control" />
+					</div>
+				</div>
+			</form>
+			<div class="main-bottom">
+				<div class="btn-group">
+					<a class="btn btn-zx submit"><i class="icon-save"></i>保存</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="main-wrapper clearfix">
 			<table id="table_authpolicy" class="table table-striped table-bordered" cellspacing="0" width="100%">
 				<thead>
 					<tr>
@@ -92,7 +111,7 @@
 									<label><input type="radio" id="type" name="type" checked="checked" value="auto" />自动认证</label>
 								</div>
 								<div class="radio">
-									<label><input type="radio" name="type" value="web" />WEB认证</label>
+									<label><input type="radio" name="type" value="web" />Portal认证</label>
 								</div>
 							</div>
 						</div>
