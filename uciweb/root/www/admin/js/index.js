@@ -52,9 +52,15 @@ function setSystem(d) {
 	
 	if (mark) cpu_stat = d.cpu_stat;
 	
+	var vnum = d.version.indexOf("-");
+	if (vnum > -1) {
+		var version1 = d.version.substring(0, vnum);
+		var version2 = d.version.substring(vnum + 1);
+		$("#version1").html(version1);
+		$("#version2").html(version2);
+	}
 	
-	
-	$("#version").html(d.version);
+	// $("#version").html(d.version);
 	$("#times").html(d.times);
 	$("#uptime").html(arrive_timer_format(d.uptime));
 	$("#loadavg").html(loadavg);
