@@ -35,7 +35,10 @@ local function verification()
 	local map = js.decode(str)
 	local times = tonumber(map[loginid]) or 0
 
-	local tt = os.time() - times
+	local uptime = read("/proc/uptime")
+	uptime = math.floor(uptime:match("(.+)%s.+")) or 0
+
+	local tt = uptime - times
 	local pwd = curs:get("password", "password", "pwd")
 	if not pwd then
 		return false
