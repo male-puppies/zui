@@ -33,12 +33,14 @@ function initData() {
 				$(".account-tips").hide();
 				$(".form-group input").prop("disabled", false);
 			}
+			OnWx();
 		}
 	})
 }
 
 function initEvents() {
 	$('.submit').on('click', saveConf);
+	$('#wx').on('click', OnWx);
 	$('[data-toggle="tooltip"]').tooltip();
 }
 
@@ -54,4 +56,13 @@ function saveConf() {
 			createModalTips("保存失败！");
 		}
 	});
+}
+
+function OnWx() {
+	var that = $("#wx");
+	if (that.is(":checked") && !that.is(":disabled")) {
+		that.closest(".form-group").siblings().find("input").prop("disabled", false);
+	} else {
+		that.closest(".form-group").siblings().find("input").prop("disabled", true);
+	}
 }
