@@ -121,6 +121,7 @@ function DoOnlineup() {
 			if (d.status == 0) {
 				$("#modal_spin .modal-body p").html("正在下载最新固件，成功后将会自动升级！<br>请稍候...");
 				$("#modal_spin").modal("show");
+				setTimeout(funcall, 30000);
 			} else {
 				createModalTips("在线升级失败！");
 			}
