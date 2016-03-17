@@ -126,9 +126,27 @@ body {
 	color: #333;
 	text-align: center;
 }
+.ie-top {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	color: #000;
+	z-index: 999;
+	height: 42px;
+	line-height: 42px;
+	font-size: 16px;
+	background: yellow;
+	display: none;
+}
 </style>
+<!--[if lte IE 7]> <style>.ie-top {display: block;}</style> <![endif]-->
 </head>
 <body>	
+<div class="ie-top">
+	<p>您所用的浏览器版本过低，或者正在使用兼容模式。请更换高版本浏览器或退出兼容模式。</p>
+</div>
 <!-- main Start -->
 <div id="login_main" class="login-main">
 	<div class="login-head">
