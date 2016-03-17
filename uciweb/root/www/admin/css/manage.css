@@ -267,6 +267,22 @@ header .footing-title .bt a {
 	text-align: left;
 	padding-top: 15px;
 }
+.header-ie-top {
+	position: fixed;
+	top: 0;
+	right: 100px;
+	padding-right:100px;
+	width: 100%;
+	text-align: center;
+	color: #000;
+	z-index: 91;
+	height: 60px;
+	line-height: 60px;
+	font-size: 16px;
+	background: yellow;
+	overflow: hidden;
+	display: none;
+}
 /*!
 	**
 	header sidebar End
@@ -736,5 +752,31 @@ input.form-control.file {
 	}
 }
 
-
+/**
+	for IE6 IE7
+**/
+.form-horizontal .form-group {
+	*width: 100%;
+}
+input,
+input.form-control {
+	*padding: 0 4px;
+	*line-height: 32px;
+	*margin: 0;
+}
+header ul.nav li {
+	*min-height: 60px;
+}
+header ul.nav a {
+	*padding-top:0;
+	*padding-bottom:0;
+	*height: 60px;
+	*line-height: 60px;
+}
+header ul.nav .dropdown-menu a {
+	*height: 20px;
+}
+header ul.nav .dropdown-menu li {
+	*min-height: 0;
+}
 
