@@ -152,6 +152,28 @@ uri_map["/authopt"] = function()
 	local _ = res and reply_str(res) or reply(1, err) 
 end
 
+uri_map["/bypass_host"] = function() 
+	local remote_ip = ngx.var.remote_addr
+
+	local map = ngx.req.get_uri_args()
+	local ip, mac = map.ip, map.mac
+	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then  
+		return reply(1, "invalid param 2")
+	end 
+
+	if remote_ip ~= ip then 
+		return reply(1, "invalid param 3")
+	end
+
+	local param = {
+		cmd = uri,
+		ip = remote_ip,
+		mac = mac,
+	}
+
+	local res, err = query.query(host, port, param)
+	local _ = res and reply_str(res) or reply(1, err) 
+end
 
 uri_map["/PhoneNo"] = function() 
 	local remote_ip = ngx.var.remote_addr
