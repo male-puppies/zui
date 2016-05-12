@@ -42,6 +42,9 @@ function saveConf() {
 	if (!verification()) return false;
 	
 	var obj = jsonTraversal(g_post, jsTravGet);
+	if (typeof obj.ac_host != "undefined") {
+		obj.ac_host = $.trim(obj.ac_host)
+	}
 	cgicall('AccountSet', obj, function(d) {
 		if (d.status == 0) {
 			initData();
