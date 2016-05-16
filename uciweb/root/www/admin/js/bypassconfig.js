@@ -58,7 +58,8 @@ function OnSubmit() {
 	}
 	var o = jsonTraversal(obj, jsTravGet);
 	o.dns = o["dns"].replace(/\,/g, " ");
-	o.ifname = "eth0";
+	o.ifname = "eth0 eth1";
+	o.type = "bridge";
 	o.proto = "static";
 
 	$("#modal_spin").modal("show");
