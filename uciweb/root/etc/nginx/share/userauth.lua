@@ -128,6 +128,26 @@ uri_map["/weixin2_login"] = function()
 	local _ = res and reply_str(res) or reply(1, err)
 end
 
+uri_map["/auto_login"] = function() 
+	local remote_ip = ngx.var.remote_addr
+	local args = ngx.req.get_uri_args()
+	local mac, ip = args.mac, args.ip 
+	if not ip then
+		ip = remote_ip
+	end
+
+	local param = {
+		cmd = uri,
+		ip = ip,
+	}
+	
+	if mac then
+		param["mac"] = mac
+	end
+
+	local res, err = query.query(host, port, param)
+	local _ = res and reply_str(res) or reply(1, err)
+end
 
 uri_map["/authopt"] = function() 
 	local remote_ip = ngx.var.remote_addr
