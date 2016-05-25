@@ -36,9 +36,10 @@ function saveConf() {
 	var arr = val.split("\n");
 	var sarr = [];
 	for (var i = 0; i < arr.length; i++) {
+		if ($.trim(arr[i]).length == 0) continue;
 		var s = arr[i].replace(/\s/g,'');
-		if ($.trim(s) != "") {
-			sarr[i] = s;
+		if (typeof s != "undefined" && s && $.trim(s) != "") {
+			sarr.push(s);
 		}
 	}
 
