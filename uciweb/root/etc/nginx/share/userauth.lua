@@ -131,7 +131,7 @@ end
 uri_map["/auto_login"] = function() 
 	local remote_ip = ngx.var.remote_addr
 	local args = ngx.req.get_uri_args()
-	local mac, ip = args.mac, args.ip 
+	local mac, ip, username = args.mac, args.ip , args.username
 	if not ip then
 		ip = remote_ip
 	end
@@ -143,6 +143,10 @@ uri_map["/auto_login"] = function()
 	
 	if mac then
 		param["mac"] = mac
+	end
+	
+	if username then
+		param["username"] = username
 	end
 
 	local res, err = query.query(host, port, param)
@@ -244,6 +248,59 @@ uri_map["/webui/login.html"] = function()
 		s = "error"
 	end 
 	reply_str(s)
+end
+
+uri_map["/guanzhu"] = function()
+	local function jump()
+		local file, str = io.open("/tmp/www/webui/ads_config.json")
+		if not file then
+			return nil
+		end
+
+		str = file:read("*a")
+		file:close()
+		local fmap = js.decode(str)
+		if fmap and fmap.g_redirect then
+			return fmap.g_redirect
+		end
+		
+		return nil
+	end
+	
+	local function sethtml(origin_id, jump_href)
+		local html = "<!DOCTYPE html><html class='no-js'><head><meta charset='utf-8'><meta name='viewport' content='initial-scale=1.0, maximum-scale=1.0, user-scalable=no'><script>"
+		if origin_id then
+			html = html .. "var origin_id='" .. origin_id .. "';"
+		end
+		
+		if jump_href then
+			html = html .. "var jump_href='".. jump_href .."';"
+		end
+		
+		html = html .. "var href;var timestamp=new Date().getTime();if(typeof origin_id!='undefined'){if(typeof jump_href!='undefined'&&jump_href.indexOf('http')!=-1){href='http://open.weixin.qq.com/auto-portal-subscribe.html?origin_id='+origin_id+'&jump_href='+jump_href+'&timestamp='+timestamp;}else{href='http://open.weixin.qq.com/auto-portal-subscribe.html?origin_id='+origin_id+'&jump_href=closeWindow&timestamp='+timestamp;}}else{if(typeof jump_href!='undefined'&&jump_href.indexOf('http')!=-1){href=jump_href;}else{href='http://open.weixin.qq.com/auto-portal-subscribe.html?&jump_href=closeWindow&timestamp='+timestamp;}}window.location.href=href;</script></head><body></body></html>"
+		
+		return html
+	end
+
+	local href = jump() or "closeWindow"
+	
+	local fp, s = io.open("/etc/config/wx_config.json")
+	if not fp then
+		return reply_str(sethtml(nil, href))
+	end
+	s = fp:read("*a")
+	fp:close()
+	
+	local map = js.decode(s)
+	if not map and not map.origin_sw and not map.origin_id then
+		return reply_str(sethtml(nil, href))
+	end
+	
+	if tonumber(map.origin_sw) ~= 1 then
+		return reply_str(sethtml(nil, href))
+	end
+
+	reply_str(sethtml(map.origin_id, href))
 end
 
 local func = uri_map[uri]
