@@ -6,6 +6,17 @@ local host, port = "127.0.0.1", 9989
 local ip_pattern = "^[0-9]+%.[0-9]+%.[0-9]+%.[0-9]+$"
 local mac_pattern = "^[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]$"
 
+local function read(path, func)
+	func = func and func or io.open
+	local fp, err = func(path, "r")
+	if not fp then
+			return nil, err
+	end
+	local s = fp:read("*a")
+	fp:close()
+	return s
+end
+
 local function reply_str(str)
 	assert(type(str) == "string")
 	ngx.say(str)
@@ -149,6 +160,45 @@ uri_map["/auto_login"] = function()
 		param["username"] = username
 	end
 
+	local res, err = query.query(host, port, param)
+	local _ = res and reply_str(res) or reply(1, err)
+end
+
+uri_map["/qr_login"] = function()
+	local args = ngx.req.get_uri_args()
+	local str = ngx.encode_args(args)
+	if str ~= "" then
+		str = "?" .. str
+	end
+	ngx.redirect("/admin/login/admin_login/qrlogin.html" .. str)  
+end
+
+uri_map["/qr_login_action"] = function() 
+	local remote_ip = ngx.var.remote_addr
+	local args = ngx.req.get_uri_args()
+	local times, sign, onlinetime = args.t, args.s, args.o
+
+	local param = {
+		cmd = uri,
+		ip = remote_ip,
+		times = times,
+		sign = sign,
+		onlinetime = onlinetime,
+	}
+
+	local res, err = query.query(host, port, param)
+	local _ = res and reply_str(res) or reply(1, err)
+end
+
+uri_map["/get_qrcode"] = function()
+	local args = ngx.req.get_uri_args()
+	local times, onlinetime = args.t, args.o
+	local param = {
+		cmd = uri,
+		times = times,
+		onlinetime = onlinetime,
+	}
+	
 	local res, err = query.query(host, port, param)
 	local _ = res and reply_str(res) or reply(1, err)
 end

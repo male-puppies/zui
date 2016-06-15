@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
-<title>一键认证</title>
+<title>二维码认证</title>
 <link rel="stylesheet" href="../../css/bootstrap.min.css" />
 <link rel="stylesheet" href="../../css/font-awesome.min.css">
 <!--[if IE 7]><link rel="stylesheet" href="../../css/font-awesome-ie7.min.css"><![endif]-->
@@ -56,32 +56,32 @@ body {
 </style>
 <script>
 var g_redirect = "";
+var g_timeout;
 function nodeTimesAuto(count) {
 	$(".btns .btn").val("点击这里开始上网 " + (count));
-	setTimeout(function() {
+	g_timeout = setTimeout(function() {
 		count--;
 		if (count >= 0) {
 			nodeTimesAuto(count);
 		} else {
-			if (g_redirect != "" && g_redirect.substring(0, 4) == "http") {
-				window.location.href = g_redirect;
-			} else {
-				window.location.href = "http://www.baidu.com";
-			}
+			onHref();
 		}
 	}, 1000);
 }
 
 function onHref() {
+	clearTimeout(g_timeout);
 	if (g_redirect != "" && g_redirect.substring(0, 4) == "http") {
 		window.location.href = g_redirect;
+	} else {
+		window.location.href = "http://www.baidu.com";
 	}
 }
 
 $(function() {
 	var params = window.location.search || "";
 	$.post(
-		"/auto_login" + params,
+		"/qr_login_action" + params,
 		function(d) {
 			if (d.status == 0) {
 				g_redirect = d.data || "";
@@ -91,8 +91,8 @@ $(function() {
 				nodeTimesAuto(3);
 			} else {
 				$(".pic i").attr("class", "icon-remove-sign icon-4x");
-				if (typeof d.data != "undefined" && d.data == "未开启一键认证") {
-					$(".font p").html("认证失败，未开启一键认证");
+				if (typeof d.data != "undefined") {
+					$(".font p").html("认证失败，"+ d.data);
 				} else {
 					$(".font p").html("认证失败");
 				}
