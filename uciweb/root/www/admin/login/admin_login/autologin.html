@@ -48,7 +48,7 @@ body {
 	color: #fff;
 }
 .btns .btn {
-	color: #44b549;
+	color: #398de3;
 	padding: 15px 16px;
 	border-radius: 28px;
 	display: none;
@@ -56,25 +56,25 @@ body {
 </style>
 <script>
 var g_redirect = "";
+var g_timeout;
 function nodeTimesAuto(count) {
 	$(".btns .btn").val("点击这里开始上网 " + (count));
-	setTimeout(function() {
+	g_timeout = setTimeout(function() {
 		count--;
 		if (count >= 0) {
 			nodeTimesAuto(count);
 		} else {
-			if (g_redirect != "" && g_redirect.substring(0, 4) == "http") {
-				window.location.href = g_redirect;
-			} else {
-				window.location.href = "http://www.baidu.com";
-			}
+			onHref();
 		}
 	}, 1000);
 }
 
 function onHref() {
+	clearTimeout(g_timeout);
 	if (g_redirect != "" && g_redirect.substring(0, 4) == "http") {
 		window.location.href = g_redirect;
+	} else {
+		window.location.href = "http://www.baidu.com";
 	}
 }
 
@@ -86,15 +86,15 @@ $(function() {
 			if (d.status == 0) {
 				g_redirect = d.data || "";
 				$(".pic i").attr("class", "icon-ok-sign icon-4x");
-				$(".font p").html("认证成功");
+				$(".font p").html("认证成功！");
 				$(".btns .btn").css("display", "inline-block");
 				nodeTimesAuto(3);
 			} else {
 				$(".pic i").attr("class", "icon-remove-sign icon-4x");
 				if (typeof d.data != "undefined" && d.data == "未开启一键认证") {
-					$(".font p").html("认证失败，未开启一键认证");
+					$(".font p").html("认证失败！未开启一键认证");
 				} else {
-					$(".font p").html("认证失败");
+					$(".font p").html("认证失败！");
 				}
 			}
 		},

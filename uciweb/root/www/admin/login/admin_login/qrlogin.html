@@ -48,7 +48,7 @@ body {
 	color: #fff;
 }
 .btns .btn {
-	color: #44b549;
+	color: #398de3;
 	padding: 15px 16px;
 	border-radius: 28px;
 	display: none;
@@ -86,15 +86,15 @@ $(function() {
 			if (d.status == 0) {
 				g_redirect = d.data || "";
 				$(".pic i").attr("class", "icon-ok-sign icon-4x");
-				$(".font p").html("认证成功");
+				$(".font p").html("认证成功！");
 				$(".btns .btn").css("display", "inline-block");
 				nodeTimesAuto(3);
 			} else {
 				$(".pic i").attr("class", "icon-remove-sign icon-4x");
 				if (typeof d.data != "undefined") {
-					$(".font p").html("认证失败，"+ d.data);
+					$(".font p").html("认证失败！"+ d.data);
 				} else {
-					$(".font p").html("认证失败");
+					$(".font p").html("认证失败！");
 				}
 			}
 		},

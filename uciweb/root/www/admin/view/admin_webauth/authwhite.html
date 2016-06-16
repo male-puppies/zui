@@ -29,17 +29,34 @@
 	<div class="container-fluid">
 		<div class="main-wrapper clearfix">
 			<div class="main-top">
-				<span class="title"><i class="icon-align-justify"></i> 免认证白名单</span>
+				<span class="title"><i class="icon-align-justify"></i> URL白名单</span>
 				<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="一行一个，支持IP和网站URL，列表中的内网主机无需认证也可上网，列表中的目标主机或网站未认证用户也可访问。"><i class="icon-question-sign"></i></span>
 			</div>
 			
 			<form class="form-horizontal">
-				<textarea class="form-control" id="auth_white" rows="15" verify="authwhite">获取信息中......</textarea>
+				<textarea class="form-control" id="auth_white" rows="10" verify="authwhite">获取信息中......</textarea>
 			</form>
 			
 			<div class="main-bottom">
 				<div class="btn-group">
 					<a class="btn btn-zx submit"><i class="icon-save"></i>保存</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="main-wrapper clearfix">
+			<div class="main-top">
+				<span class="title"><i class="icon-align-justify"></i> 微信认证白名单</span>
+				<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="一行一个，进行微信认证时的放通列表。"><i class="icon-question-sign"></i></span>
+			</div>
+			
+			<form class="form-horizontal">
+				<textarea class="form-control" id="wechat_white" rows="10" verify="authwhite">获取信息中......</textarea>
+			</form>
+			
+			<div class="main-bottom">
+				<div class="btn-group">
+					<a class="btn btn-zx wsubmit"><i class="icon-save"></i>保存</a>
 				</div>
 			</div>
 		</div>
