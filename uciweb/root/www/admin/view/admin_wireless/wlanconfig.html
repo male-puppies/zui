@@ -126,6 +126,23 @@
 							</div>
 						</div>
 						<div class="form-group clearfix">
+							<label class="col-xs-4 control-label" for="vlanEnable">启用VLAN</label>
+							<div class="col-xs-5">
+								<div class="checkbox">
+									<label style="display:block;"><input type="checkbox" id="vlanEnable" value="1 0" /></label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-xs-4 control-label" for="vlanID">VLAN ID</label>
+							<div class="col-xs-5">
+								<input type="text" id="vlanID" class="form-control" verify="num 1 4094" />
+							</div>
+							<div class="col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~4094。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
 							<label class="col-xs-4 control-label">生效AP列表</label>
 							<div class="col-xs-5">
 								<div class="radio efaps_all">

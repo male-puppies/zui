@@ -9,7 +9,9 @@ var oTabWlan,
 		'SSID': 'SSID',
 		'encrypt': 'none',
 		'password':'',
-		'hide': "0"
+		'hide': "0",
+		'vlanEnable': '0',
+		'vlanID': ''
 	};
 
 $(function() {
@@ -170,6 +172,7 @@ function edit(that) {
 	getSelected(that);
 	jsonTraversal(nodeEdit[0], jsTravSet);
 	OnEncrypt();
+	OnVlanChanged();
 	set_wlanListAps(nodeEdit[0]);
 }
 
@@ -340,6 +343,7 @@ function initEvents() {
 	$("#encrypt").on("change", OnEncrypt);
 	$('[name="efaps"]').on("change", OnEfaps);
 	$(".showlock").on("click", OnShowlock);
+	$("#vlanEnable").on("click", OnVlanChanged);
 	$('[data-toggle="tooltip"]').tooltip();
 }
 
@@ -351,10 +355,13 @@ function OnAdd() {
 		'SSID': '',
 		'encrypt': 'none',
 		'password':'',
-		'hide': "0"
+		'hide': "0",
+		'vlanEnable': '0',
+		'vlanID': ''
 	}
 	jsonTraversal(oSSID, jsTravSet);
 	OnEncrypt();
+	OnVlanChanged();
 	set_wlanListAps();
 }
 
@@ -413,6 +420,15 @@ function OnShowlock(that) {
 			tt.attr("type", "password")
 		}
 	}
+}
+
+function OnVlanChanged() {
+	var en = $('#vlanEnable').prop('checked');
+	if (en) {
+		$('#vlanID').prop('disabled', false);
+	}else{
+		$('#vlanID').prop('disabled', true);
+	};
 }
 
 function getSelected(that) {
