@@ -3,6 +3,7 @@ var oTabWlan,
 	nodeEdit = [],
 	opr = 'add',
 	modify_wlanid = "00001",
+	editAllap = true,
 	oSSID = {
 		'enable': "1",
 		'band': 'all',
@@ -139,19 +140,20 @@ function createDtAps() {
 		],
 		"rowCallback": dtBindRowSelectEvents,
 		"drawCallback": function() {
-			// $('.efaps_all input').prop("checked", true);
-			// $('.efaps_oth input').prop("checked", false);
 			this.$('td:eq(1)', {}).each(function(index, element) {
 				if ($(element).find('input').is(":checked")) {
 					$(element).parent("tr").addClass("row_selected");
 				} else {
 					$(element).parent("tr").removeClass("row_selected");
-					if (opr != 'add') {
-						$('.efaps_all input').prop("checked", false);
-						$('.efaps_oth input').prop("checked", true);
-					}
 				}
 			});
+			if (editAllap) {
+				$('.efaps_all input').prop("checked", true);
+				$('.efaps_oth input').prop("checked", false);
+			} else {
+				$('.efaps_all input').prop("checked", false);
+				$('.efaps_oth input').prop("checked", true);
+			}
 		}
 	})
 }
@@ -168,7 +170,7 @@ function initData() {
 }
 
 function edit(that) {
-	opr = 'edit',
+	opr = 'edit';
 	getSelected(that);
 	jsonTraversal(nodeEdit[0], jsTravSet);
 	OnEncrypt();
@@ -189,12 +191,18 @@ function set_wlanListAps(wlan){
 	} else {
 		$(".efaps_all input").prop("checked", true);
 		$(".efaps_oth input").prop("checked", false);
-		$(".checkall2").prop("checked", false)
+		$(".checkall2").prop("checked", false);
 	}
 
 	cgicall('WLANListAps', obj, function(d) {
 		if (d.status == 0) {
-			dtRrawData(oTabAps, dtObjToArray(d.data));
+			if (opr == "add") {
+				editAllap = true;
+				dtRrawData(oTabAps, dtObjToArray(d.data));
+			} else {
+				editAllap = d.data.allap;
+				dtRrawData(oTabAps, dtObjToArray(d.data.apid_arr));
+			}
 			OnEfaps("true");
 			$("#modal_edit").modal("show");
 		} else {
@@ -244,7 +252,7 @@ function OpenCheckaps(that) {
 	cgicall('WLANListAps', obj, function(d) {
 		if (d.status == 0) {
 			var arr = [],
-				data = dtObjToArray(d.data);
+				data = dtObjToArray(d.data.apid_arr);
 
 			for (var i = 0; i < data.length; i++) {
 				if (data[i].check == '1') {
@@ -268,9 +276,10 @@ function DoSave() {
 		nodes = oTabAps.api().rows().nodes();
 	
 	if ($('.efaps_all input').is(":checked")) {
-		for (var k = nodes.length - 1; k >= 0; k--) {
-			apArr.push($(nodes[k]).find("td:eq(0) span").attr("value"));
-		};
+		// for (var k = nodes.length - 1; k >= 0; k--) {
+			// apArr.push($(nodes[k]).find("td:eq(0) span").attr("value"));
+		// };
+		apArr = "allap";
 	} else {
 		for (var i = nodes.length - 1; i >= 0; i--) {
 			if ($(nodes[i]).hasClass('row_selected')) {
@@ -358,7 +367,8 @@ function OnAdd() {
 		'hide': "0",
 		'vlanEnable': '0',
 		'vlanID': ''
-	}
+	};
+	editAllap = true;
 	jsonTraversal(oSSID, jsTravSet);
 	OnEncrypt();
 	OnVlanChanged();
@@ -439,6 +449,5 @@ function getSelected(that) {
 		nodeEdit.push(data);
 	} else {
 		nodeEdit = dtGetSelected(oTabWlan);
-		console.log(nodeEdit)
 	}
 }
