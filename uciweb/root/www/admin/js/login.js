@@ -60,7 +60,12 @@ function OnSubmit() {
 					$.cookie('login_user', username, {expires: 7, path: "/"});
 					$.cookie('login_pwd', '', {expires: -1, path: "/"});
 				}
-				window.location.href = "/admin/view/admin_status/index.html";
+				
+				var href = "/admin/view/admin_status/index.html";
+				if (typeof d.data.wizard != "undefined" && d.data.wizard == "true") {
+					href = "/admin/view/admin_system/wizard.html";
+				}
+				window.location.href = href;
 			} else {
 				createModalTips("登录失败！" + (d.data ? d.data : ""));
 			}
