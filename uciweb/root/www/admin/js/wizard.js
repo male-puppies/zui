@@ -212,9 +212,7 @@ function getStep2() {
 	obj.password = $("#encrypt_password").val();
 	
 	if ($('.efaps_all input').is(":checked")) {
-		for (var k = nodes.length - 1; k >= 0; k--) {
-			apArr.push($(nodes[k]).find("td:eq(0) span").attr("value"));
-		};
+		apArr = "allap";
 	} else {
 		for (var i = nodes.length - 1; i >= 0; i--) {
 			if ($(nodes[i]).hasClass('row_selected')) {
