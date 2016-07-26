@@ -1,0 +1,481 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<!--[if lte IE 9 ]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> 
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+<title>设置向导</title>
+<link rel="stylesheet" href="../../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../../css/font-awesome.min.css">
+<!--[if IE 7]><link rel="stylesheet" href="../../css/font-awesome-ie7.min.css"><![endif]-->
+<link rel="stylesheet" href="../../css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="../../css/manage.css" />
+<style>
+.modal-body legend {
+	margin-top: 0;
+	padding-bottom: 10px;
+	font-size: 14px;
+	text-indent: 2em;
+}
+.modal-body legend span {
+	display: inline-block;
+	text-indent: 2em;
+}
+.close-wizard {
+	margin-right: 10px;
+}
+.modal-body legend span.error-ap {
+	color: red;
+	display: none;
+}
+.main .footer {
+	display: none;
+}
+header a.menu.dropdown {
+    background-color: rgba(255, 255, 255, 0.05);
+	color: #fff;
+}
+</style>
+<script src="../../js/black/jquery-1.11.3.min.js"></script>
+<script src="../../js/black/jquery.cookie.js"></script>
+<script src="../../js/black/json2.js"></script>
+<script src="../../js/black/bootstrap.min.js"></script>
+<script src="../../js/black/jquery.dataTables.min.js"></script>
+<script src="../../js/jquery.ext.verify.js"></script>
+<script src="../../js/commin.js"></script>
+
+
+<script src="../../js/wizard.js"></script>
+</head>
+<body>
+<!-- header -->
+<div id="header_ajax"></div>
+<script src="../../js/black/header.ajax.js"></script>
+<script>$(".header-top h1").html("设置向导");</script>
+
+<!-- step0 -->
+<div id="modal_step0" class="modal fade" tabindex=-1>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">设置向导</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<fieldset>
+						<legend style="border:none;">如果您对网络知识或这个产品不太熟悉，您可以通过这个向导提示轻松完成上网所需的基本网络参数。如果您是专家，您也可以退出这个向导程序，进入左侧菜单项中选择您需要修改的设置。</br></br><span>要继续设置向导，请单击“下一步”。</span></br><span>要退出设置向导，请单击“退出向导”。</span></legend>
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="pull-left">
+					<button type="button" class="btn btn-warning close-wizard">退出向导</button>
+				</div>
+				<div class="pull-right">
+					<button type="button" class="btn btn-zx next-step" data-next="modal_step1">下一步</button>
+				</div>
+				<div class="tip"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- step1 -->
+<div id="modal_step1" class="modal" tabindex=-1>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">选择上网方式</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<fieldset>
+						<legend>三种不同的上网方式，请您根据自身情况进行选择。</legend>
+						<div class="form-group clearfix">
+							<label class="col-xs-1 control-label"></label>
+							<div class="col-xs-8">
+								<div class="radio">
+									<label><input type="radio" class="data-next" name="proto" checked="checked" value="pppoe" data-next="modal_step1_1" />PPPoE拨号</label>
+								</div>
+								<div class="radio">
+									<label><input type="radio" name="proto" value="dhcp" data-next="modal_step2" />自动获取</label>
+								</div>
+								<div class="radio">
+									<label><input type="radio" name="proto" value="static" data-next="modal_step1_2" />静态IP获取</label>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="pull-left">
+					<button type="button" class="btn btn-warning close-wizard">退出向导</button>
+				</div>
+				<div class="pull-right">
+					<button type="button" class="btn btn-default prev-step" data-prev="modal_step0">上一步</button>
+					<button type="button" class="btn btn-zx next-step">下一步</button>
+				</div>
+				<div class="tip"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- step1-1 -->
+<div id="modal_step1_1" class="modal" tabindex=-1>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">PPPoE拨号</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<fieldset>
+						<legend>您申请宽带服务时候，网络服务商提供给您的上网帐号和密码，请对应填入下框。如您遗忘或不太清楚，请咨询您的网络服务商。</legend>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label" for="username">帐号</label>
+							<div class="col-xs-6">
+								<input type="text" id="username" class="form-control" verify="notspace" />
+							</div>
+							<div class="col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="网络服务商提供给您的上网帐号。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label" for="password">密码</label>
+							<div class="col-xs-6">
+								<input type="text" id="password" class="form-control" verify="notspace" />
+							</div>
+							<div class="col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="网络服务商提供给您的上网密码。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="pull-left">
+					<button type="button" class="btn btn-warning close-wizard">退出向导</button>
+				</div>
+				<div class="pull-right">
+					<button type="button" class="btn btn-default prev-step" data-prev="modal_step1">上一步</button>
+					<button type="button" class="btn btn-zx next-step" data-next="modal_step2">下一步</button>
+				</div>
+				<div class="tip"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- step1-2 -->
+<div id="modal_step1_2" class="modal" tabindex=-1>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">静态IP获取</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<fieldset>
+						<legend>您申请宽带服务，并具有固定IP地址时，网络服务商提供给您的一些基本网络参数，请对应填入下框。如您遗忘或不太清楚，请咨询您的网络服务商。</legend>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label" for="ipaddr">IP地址</label>
+							<div class="col-xs-6">
+								<input type="text" id="ipaddr" class="form-control" verify="ip" />
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label" for="netmask">子网掩码</label>
+							<div class="col-xs-6">
+								<input type="text" id="netmask" class="form-control" verify="mask" />
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label" for="gateway">网关</label>
+							<div class="col-xs-6">
+								<input type="text" id="gateway" class="form-control" verify="ip" />
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label" for="dns">DNS</label>
+							<div class="col-xs-6">
+								<input type="text" id="dns" class="form-control" verify="dns" />
+							</div>
+							<div class="col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入IP地址，以英文逗号分隔。如：8.8.8.8,114.114.114.114。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="pull-left">
+					<button type="button" class="btn btn-warning close-wizard">退出向导</button>
+				</div>
+				<div class="pull-right">
+					<button type="button" class="btn btn-default prev-step" data-prev="modal_step1">上一步</button>
+					<button type="button" class="btn btn-zx next-step" data-next="modal_step2">下一步</button>
+				</div>
+				<div class="tip"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- step2 -->
+<div id="modal_step2" class="modal" tabindex=-1>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">无线配置</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<fieldset>
+						<legend>配置无线网络的基本配置，详细配置请在左侧无线管理的WLAN管理进行配置。</br><span class="error-ap">您当前未接入任何AP，当接入AP选择生效AP列表后，该配置才能生效。</span></legend>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label" for="wlan_read">配置方式</label>
+							<div class="col-xs-6">
+								<select id="wlan_read" class="form-control">
+									<option value="$add$">新增SSID</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label" for="SSID">SSID</label>
+							<div class="col-xs-6">
+								<input type="text" id="SSID" class="form-control" verify="ssid_name" />
+							</div>
+							<div class="col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="只能包含中文、数字、字母、‘-’、‘.’ 和下划线，不允许空格。长度范围1~32个字符，不超过10个中文。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label" for="encrypt">加密类型</label>
+							<div class="col-xs-6">
+								<select id="encrypt" class="form-control">
+									<option value="none">不加密</option>
+									<option value="psk2">WPA2-PSK</option>
+									<option value="psk">WPA-PSK</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label" for="encrypt_password">无线密码</label>
+							<div class="col-xs-6">
+								<input type="password" id="encrypt_password" class="form-control" verify="wpassword" />
+							</div>
+							<div class="col-xs-3 tip-icons">
+								<span class="icon-tip showlock" data-toggle="tooltip" data-placement="bottom" title="显示/隐藏密码"><i class="icon-lock icon-large"></i></span>
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字/字母，长度: 8~32个字符。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label">生效AP列表</label>
+							<div class="col-xs-6">
+								<div class="radio efaps_all">
+									<label><input type="radio" name="efaps" checked="checked" value="all" />对所有AP生效</label>
+								</div>
+								<div class="radio efaps_oth">
+									<label><input type="radio" name="efaps" value="oth" />选择其它</label>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+				<div class="main-wrapper effectaps clearfix" style="margin: 0;display:none;">
+					<table id="table_effectaps" class="table table-striped table-bordered" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>AP(描述)</th>
+								<th data-toggle="tooltip" data-container="body" data-trigger="hover" title="仅勾选当前页"><input type="checkbox" class="checkall2" value="1 0" /></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="pull-left">
+					<button type="button" class="btn btn-warning close-wizard">退出向导</button>
+				</div>
+				<div class="pull-right">
+					<button type="button" class="btn btn-default prev-step" data-prev="modal_step1">上一步</button>
+					<button type="button" class="btn btn-zx next-step" data-done="done">完　成</button>
+				</div>
+				<div class="tip"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- step3 -->
+<!--
+<div id="modal_step3" class="modal" tabindex=-1>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">新用户认证方式</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<fieldset>
+						<legend>新用户接入网络的认证方式。<span style="color:red;text-indent:0em;">该配置将对所有IP范围进行生效，</span>更详细的配置请在左侧用户认证的新用户认证方式进行配置。</br><span></br><span>自动认证表示可以直接上网。Portal认证表示需要进行身份验证才可以上网（微信认证和web认证等请选择Portal认证）。</span></legend>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label">认证方式</label>
+							<div class="col-xs-6">
+								<div class="radio">
+									<label><input type="radio" id="type" name="type" checked="checked" value="auto" data-done="done" />自动认证</label>
+								</div>
+								<div class="radio">
+									<label><input type="radio" name="type" value="web" />Portal认证</label>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="pull-left">
+					<button type="button" class="btn btn-warning close-wizard">退出向导</button>
+				</div>
+				<div class="pull-right">
+					<button type="button" class="btn btn-default prev-step" data-prev="modal_step2">上一步</button>
+					<button type="button" class="btn btn-zx next-step" data-next="modal_step4" data-done="check|type">下一步</button>
+				</div>
+				<div class="tip"></div>
+			</div>
+		</div>
+	</div>
+</div>
+-->
+<!-- step4 -->
+<!--
+<div id="modal_step4" class="modal" tabindex=-1>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">管理方式</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<fieldset>
+						<legend>设备的管理方式。当选择云端管理时，用户认证等配置（如微信认证配置）需要在云端配置下发。详情请浏览设备提供商提供的云端地址。</legend>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label">管理方式</label>
+							<div class="col-xs-6">
+								<div class="radio">
+									<label><input type="radio" class="data-next" name="local_account" checked="checked" value="local" data-done="done" />本地管理</label>
+								</div>
+								<div class="radio">
+									<label><input type="radio" name="local_account" value="account" data-next="modal_step4_1" />云端管理</label>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="pull-left">
+					<button type="button" class="btn btn-warning close-wizard">退出向导</button>
+				</div>
+				<div class="pull-right">
+					<button type="button" class="btn btn-default prev-step" data-prev="modal_step3">上一步</button>
+					<button type="button" class="btn btn-zx next-step" data-done="check|local_account">下一步</button>
+				</div>
+				<div class="tip"></div>
+			</div>
+		</div>
+	</div>
+</div>
+-->
+
+<!-- step4-1 -->
+<!--
+<div id="modal_step4_1" class="modal" tabindex=-1>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">云端管理</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<fieldset>
+						<legend>云端管理配置。设备提供商提供给您的云端帐号和地址，请对应填入下框。如您遗忘或不太清楚，请咨询您的设备提供商。</legend>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label" for="account">帐号</label>
+							<div class="col-xs-6">
+								<input type="text" id="account" class="form-control" verify="notspace" />
+							</div>
+							<div class="col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="设备提供商提供给您的云端帐号。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label" for="ac_host">地址</label>
+							<div class="col-xs-6">
+								<input type="text" id="ac_host" class="form-control" verify="notspace" />
+							</div>
+							<div class="col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="设备提供商提供给您的云端地址。"><i class="icon-question-sign"></i></span>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-xs-3 control-label" for="descr">描述</label>
+							<div class="col-xs-6">
+								<input type="text" id="descr" class="form-control" />
+							</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<div class="pull-left">
+					<button type="button" class="btn btn-warning close-wizard">退出向导</button>
+				</div>
+				<div class="pull-right">
+					<button type="button" class="btn btn-default prev-step" data-prev="modal_step4">上一步</button>
+					<button type="button" class="btn btn-zx next-step" data-done="done">完　成</button>
+				</div>
+				<div class="tip"></div>
+			</div>
+		</div>
+	</div>
+</div>
+-->
+
+
+<!-- 提示 -->
+<div id="modal_tips" class="modal fade" tabindex=-1>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">提示</h4>
+			</div>
+			<div class="modal-body">
+				<div class="modal-p">
+					<span></span>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-zx btn-modal modal_done" onclick="javascript:window.location.href='/admin/view/admin_status/index.html';">完成</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- spin -->
+<div id="modal_spin" class="modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<i class="icon-spin icon-spinner icon-4x"></i>
+				<p>Loading...</p>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
