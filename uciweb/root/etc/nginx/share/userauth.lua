@@ -20,7 +20,7 @@ end
 local function reply_str(str)
 	assert(type(str) == "string")
 	ngx.say(str)
-	return true 
+	return true
 end
 
 local function reply(st, v)
@@ -31,14 +31,14 @@ local uri_map = {}
 uri_map["/cloudonline"] = function()
 	local remote_ip = ngx.var.remote_addr
 	local param = {
-		cmd = uri, 
-		ip = remote_ip,  
+		cmd = uri,
+		ip = remote_ip,
 	}
 	local res, err = query.query(host, port, param)
 	local _ = res and reply_str(res) or reply(1, err)
 end
 
-uri_map["/cloudlogin"] = function() 
+uri_map["/cloudlogin"] = function()
 	local remote_ip = ngx.var.remote_addr
 	local args = ngx.req.get_uri_args()
 	local mac, ip = args.mac, args.ip
@@ -46,17 +46,17 @@ uri_map["/cloudlogin"] = function()
 	ngx.req.read_body()
 	local map = ngx.req.get_post_args()
 	local username, password = map.username or map.UserName, map.password or map.Password
-	if not (ip and mac and username and password) then 
+	if not (ip and mac and username and password) then
 		return reply(1, "invalid param ")
-	end 
+	end
 
-	if not (#username > 0 and #username <= 16 and #password >= 4 and #password <= 16) then  
+	if not (#username > 0 and #username <= 16 and #password >= 4 and #password <= 16) then
 		return reply(1, "invalid param 1")
-	end 
+	end
 
-	if not (mac:find(mac_pattern) and ip:find(ip_pattern)) then  
+	if not (mac:find(mac_pattern) and ip:find(ip_pattern)) then
 		return reply(1, "invalid param 2")
-	end 
+	end
 
 	if remote_ip ~= ip then 
 		return reply(1, "invalid param 3")
@@ -74,36 +74,36 @@ uri_map["/cloudlogin"] = function()
 	local _ = res and reply_str(res) or reply(1, err)
 end
 
-uri_map["/wxlogin2info"] = function() 
+uri_map["/wxlogin2info"] = function()
 	local remote_ip = ngx.var.remote_addr
 	local args = ngx.req.get_uri_args()
-	local mac, ip = args.mac, args.ip 
-	if not (mac and ip) then 
+	local mac, ip = args.mac, args.ip
+	if not (mac and ip) then
 		return reply(1, "invalid param 1")
-	end 
+	end
 
-	if not (mac:find(mac_pattern) and ip:find(ip_pattern)) then  
+	if not (mac:find(mac_pattern) and ip:find(ip_pattern)) then
 		return reply(1, "invalid param 2")
-	end 
+	end
 
-	if remote_ip ~= ip then 
+	if remote_ip ~= ip then
 		return reply(1, "invalid param 3")
 	end
 
-	local now = args.now 
+	local now = args.now
 	if not now then
 		ngx.req.read_body()
 		local map = ngx.req.get_post_args()
-		now = map.now 
-	end 
+		now = map.now
+	end
 
-	if not now then 
+	if not now then
 		return reply(1, "invalid param 4")
 	end
 
 	local param = {
-		cmd = uri, 
-		ip = ip,  
+		cmd = uri,
+		ip = ip,
 		mac = mac,
 		now = now,
 	}
@@ -112,21 +112,21 @@ uri_map["/wxlogin2info"] = function()
 	local _ = res and reply_str(res) or reply(1, err)
 end
 
-uri_map["/weixin2_login"] = function() 
+uri_map["/weixin2_login"] = function()
 	local remote_ip = ngx.var.remote_addr
 
 	local map = ngx.req.get_uri_args()
-	local extend, openid = map.extend, map.openId	
-	if not extend then 
+	local extend, openid = map.extend, map.openId
+	if not extend then
 		ngx.req.read_body()
 		local map = ngx.req.get_post_args()
-		extend, openid = map.extend, map.openId	
+		extend, openid = map.extend, map.openId
 	end
-	
-	if not (extend and openid) then 
+
+	if not (extend and openid) then
 		ngx.exit(ngx.HTTP_FORBIDDEN)
 		return
-	end 
+	end
 
 	local param = {
 		cmd = uri,
@@ -139,7 +139,7 @@ uri_map["/weixin2_login"] = function()
 	local _ = res and reply_str(res) or reply(1, err)
 end
 
-uri_map["/auto_login"] = function() 
+uri_map["/auto_login"] = function()
 	local remote_ip = ngx.var.remote_addr
 	local args = ngx.req.get_uri_args()
 	local mac, ip, username = args.mac, args.ip , args.username
@@ -151,11 +151,11 @@ uri_map["/auto_login"] = function()
 		cmd = uri,
 		ip = ip,
 	}
-	
+
 	if mac then
 		param["mac"] = mac
 	end
-	
+
 	if username then
 		param["username"] = username
 	end
@@ -173,7 +173,7 @@ uri_map["/qr_login"] = function()
 	ngx.redirect("/admin/login/admin_login/qrlogin.html" .. str)  
 end
 
-uri_map["/qr_login_action"] = function() 
+uri_map["/qr_login_action"] = function()
 	local remote_ip = ngx.var.remote_addr
 	local args = ngx.req.get_uri_args()
 	local times, sign, onlinetime = args.t, args.s, args.o
@@ -198,21 +198,44 @@ uri_map["/get_qrcode"] = function()
 		times = times,
 		onlinetime = onlinetime,
 	}
-	
+
 	local res, err = query.query(host, port, param)
 	local _ = res and reply_str(res) or reply(1, err)
 end
 
-uri_map["/authopt"] = function() 
+uri_map["/authopt"] = function()
 	local remote_ip = ngx.var.remote_addr
 
 	local map = ngx.req.get_uri_args()
 	local ip, mac = map.ip, map.mac
-	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then  
+	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then
 		return reply(1, "invalid param 2")
-	end 
+	end
 
-	if remote_ip ~= ip then 
+	if remote_ip ~= ip then
+		return reply(1, "invalid param 3")
+	end
+
+	local param = {
+		cmd = uri,
+		ip = remote_ip,
+		mac = mac,
+	}
+
+	local res, err = query.query(host, port, param)
+	local _ = res and reply_str(res) or reply(1, err)
+end
+
+uri_map["/bypass_host"] = function()
+	local remote_ip = ngx.var.remote_addr
+
+	local map = ngx.req.get_uri_args()
+	local ip, mac = map.ip, map.mac
+	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then
+		return reply(1, "invalid param 2")
+	end
+
+	if remote_ip ~= ip then
 		return reply(1, "invalid param 3")
 	end
 
@@ -226,34 +249,11 @@ uri_map["/authopt"] = function()
 	local _ = res and reply_str(res) or reply(1, err) 
 end
 
-uri_map["/bypass_host"] = function() 
-	local remote_ip = ngx.var.remote_addr
-
-	local map = ngx.req.get_uri_args()
-	local ip, mac = map.ip, map.mac
-	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then  
-		return reply(1, "invalid param 2")
-	end 
-
-	if remote_ip ~= ip then 
-		return reply(1, "invalid param 3")
-	end
-
-	local param = {
-		cmd = uri,
-		ip = remote_ip,
-		mac = mac,
-	}
-
-	local res, err = query.query(host, port, param)
-	local _ = res and reply_str(res) or reply(1, err) 
-end
-
-uri_map["/PhoneNo"] = function() 
+uri_map["/PhoneNo"] = function()
 	local remote_ip = ngx.var.remote_addr
 	local args = ngx.req.get_uri_args()
 	local mac, ip = args.mac, args.ip
-	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then  
+	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then
 		return reply(1, "invalid param 2")
 	end
 
@@ -261,9 +261,9 @@ uri_map["/PhoneNo"] = function()
 	local map = ngx.req.get_post_args()
 	local username = map.UserName
 
-	if not (username and #username > 8) then 
+	if not (username and #username > 8) then
 		return reply(1, "invalid param phone no")
-	end 
+	end
 
 	local param = {
 		cmd = uri,
@@ -272,14 +272,94 @@ uri_map["/PhoneNo"] = function()
 		UserName = username,
 	}
 	local res, err = query.query(host, port, param)
-	local _ = res and reply_str(res) or reply(1, err) 
+	local _ = res and reply_str(res) or reply(1, err)
 end
 
-uri_map["/webui/login.html"] = function() 
+uri_map["/sms_send"] = function()
+	local args = ngx.req.get_uri_args()
+	local account_id, shop_id, mac, ip , phoneno = args.account_id, args.shop_id, args.mac, args.ip , args.phoneno
+	if not (ip and mac and phoneno) then
+		return reply(1, "invalid param ")
+	end
+
+	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then
+		return reply(1, "invalid param 2")
+	end
+
+	if not (phoneno and #phoneno > 8) then
+		return reply(1, "invalid param phone no")
+	end
+
+	local param = {
+		cmd = uri,
+		account_id = account_id,
+		shop_id = shop_id,
+		ip = ip,
+		mac = mac,
+		phoneno = phoneno,
+	}
+	local res, err = query.query(host, port, param)
+	local _ = res and reply_str(res) or reply(1, err)
+end
+
+uri_map["/sms_check"] = function()
+	local args = ngx.req.get_uri_args()
+	local account_id, shop_id, mac, ip , phoneno, sms_code = args.account_id, args.shop_id, args.mac, args.ip , args.phoneno, args.sms_code
+	if not (ip and mac and phoneno) then
+		return reply(1, "invalid param ")
+	end
+
+	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then
+		return reply(1, "invalid param 2")
+	end
+
+	if not (phoneno and #phoneno > 8 and sms_code) then
+		return reply(1, "invalid param phone no or sms_code")
+	end
+
+	local param = {
+		cmd = uri,
+		account_id = account_id,
+		shop_id = shop_id,
+		ip = ip,
+		mac = mac,
+		phoneno = phoneno,
+		sms_code = sms_code,
+	}
+	local res, err = query.query(host, port, param)
+	local _ = res and reply_str(res) or reply(1, err)
+end
+
+uri_map["/passwd_login"] = function()
+	local args = ngx.req.get_uri_args()
+	local mac, ip, password = args.mac, args.ip, args.password
+
+	if not (ip and mac and password) then
+		return reply(1, "invalid param ")
+	end
+	if not (#password >= 1 and #password <= 10) then
+		return reply(1, "invalid param 1")
+	end
+
+	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then
+		return reply(1, "invalid param 2")
+	end
+
+	local param = {
+		cmd = uri,
+		ip = ip,
+		mac = mac,
+		password = password,
+	}
+	local res, err = query.query(host, port, param)
+	local _ = res and reply_str(res) or reply(1, err)
+end
+
+uri_map["/webui/login.html"] = function()
 	local remote_ip = ngx.var.remote_addr
 	local args = ngx.req.get_uri_args()
 	local mac, ip = args.mac, args.ip
-	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then  
+	if not (ip and mac and mac:find(mac_pattern) and ip:find(ip_pattern)) then
 		return reply(1, "invalid param 1 " .. string.format("%s %s ---", ip, mac))
 	end
 
@@ -291,12 +371,12 @@ uri_map["/webui/login.html"] = function()
 	
 	query.query(host, port, param)
 	local fp, s = io.open("/tmp/www/webui/login.html")
-	if fp then 
+	if fp then
 		s = fp:read("*a")
 		fp:close()
-	else 
+	else
 		s = "error"
-	end 
+	end
 	reply_str(s)
 end
 
@@ -313,39 +393,39 @@ uri_map["/guanzhu"] = function()
 		if fmap and fmap.g_redirect then
 			return fmap.g_redirect
 		end
-		
+
 		return nil
 	end
-	
+
 	local function sethtml(origin_id, jump_href)
 		local html = "<!DOCTYPE html><html class='no-js'><head><meta charset='utf-8'><meta name='viewport' content='initial-scale=1.0, maximum-scale=1.0, user-scalable=no'><script>"
 		if origin_id then
 			html = html .. "var origin_id='" .. origin_id .. "';"
 		end
-		
+
 		if jump_href then
 			html = html .. "var jump_href='".. jump_href .."';"
 		end
-		
+
 		html = html .. "var href;var timestamp=new Date().getTime();if(typeof origin_id!='undefined'){if(typeof jump_href!='undefined'&&jump_href.indexOf('http')!=-1){href='http://open.weixin.qq.com/auto-portal-subscribe.html?origin_id='+origin_id+'&jump_href='+jump_href+'&timestamp='+timestamp;}else{href='http://open.weixin.qq.com/auto-portal-subscribe.html?origin_id='+origin_id+'&jump_href=closeWindow&timestamp='+timestamp;}}else{if(typeof jump_href!='undefined'&&jump_href.indexOf('http')!=-1){href=jump_href;}else{href='http://open.weixin.qq.com/auto-portal-subscribe.html?&jump_href=closeWindow&timestamp='+timestamp;}}window.location.href=href;</script></head><body></body></html>"
-		
+
 		return html
 	end
 
 	local href = jump() or "closeWindow"
-	
+
 	local fp, s = io.open("/etc/config/wx_config.json")
 	if not fp then
 		return reply_str(sethtml(nil, href))
 	end
 	s = fp:read("*a")
 	fp:close()
-	
+
 	local map = js.decode(s)
 	if not map and not map.origin_sw and not map.origin_id then
 		return reply_str(sethtml(nil, href))
 	end
-	
+
 	if tonumber(map.origin_sw) ~= 1 then
 		return reply_str(sethtml(nil, href))
 	end
