@@ -6,15 +6,16 @@ local host, port = "127.0.0.1", 9989
 local ip_pattern = "^[0-9]+%.[0-9]+%.[0-9]+%.[0-9]+$"
 local mac_pattern = "^[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]:[0-9a-f][0-9a-f]$"
 
-local function read(path, func)
-	func = func and func or io.open
-	local fp, err = func(path, "r")
-	if not fp then
-			return nil, err
+
+local function read(path)
+	local fp, s = io.open(path)
+	if fp then
+		s = fp:read("*a")
+		fp:close()
+		return s
+	else
+		return nil, err
 	end
-	local s = fp:read("*a")
-	fp:close()
-	return s
 end
 
 local function reply_str(str)
@@ -380,18 +381,36 @@ uri_map["/webui/login.html"] = function()
 	reply_str(s)
 end
 
-uri_map["/guanzhu"] = function()
-	local function jump()
-		local file, str = io.open("/tmp/www/webui/ads_config.json")
-		if not file then
-			return nil
+local cloud_config_file = "/tmp/www/webui/auth_config.conf"
+local function get_cloud_config()
+	local f = read(cloud_config_file)
+	local map = {}
+	if f then
+		map = js.decode(f)
+		if map and map.authtype then
+			return true, map
 		end
+	end
+	return false, nil
+end
 
-		str = file:read("*a")
-		file:close()
-		local fmap = js.decode(str)
-		if fmap and fmap.g_redirect then
-			return fmap.g_redirect
+uri_map["/guanzhu"] = function()
+	local function jump(adtype)
+		if adtype == "local" then
+			local file, str = io.open("/tmp/www/webui/ads_config.json")
+			if not file then
+				return nil
+			end
+
+			str = file:read("*a")
+			file:close()
+			local fmap = js.decode(str)
+			if fmap and fmap.g_redirect then
+				return fmap.g_redirect
+			end
+		end
+		if adtype == "cloud" then
+			return "http://qilun.trylong.cn"
 		end
 
 		return nil
@@ -411,26 +430,54 @@ uri_map["/guanzhu"] = function()
 
 		return html
 	end
-
-	local href = jump() or "closeWindow"
-
-	local fp, s = io.open("/etc/config/wx_config.json")
-	if not fp then
-		return reply_str(sethtml(nil, href))
-	end
-	s = fp:read("*a")
-	fp:close()
-
-	local map = js.decode(s)
-	if not map and not map.origin_sw and not map.origin_id then
-		return reply_str(sethtml(nil, href))
+	
+	local adtype = "local"
+	local s = read("/tmp/www/adtype")
+	if s and s:find("cloudauth") then 
+		adtype = "cloud"
 	end
 
-	if tonumber(map.origin_sw) ~= 1 then
-		return reply_str(sethtml(nil, href))
-	end
+	local href = jump(adtype) or "closeWindow"
 
-	reply_str(sethtml(map.origin_id, href))
+	if adtype == "local" then 
+		local fp, s = io.open("/etc/config/wx_config.json")
+		if not fp then
+			return reply_str(sethtml(nil, href))
+		end
+		s = fp:read("*a")
+		fp:close()
+
+		local map = js.decode(s)
+		if not map and not map.origin_sw and not map.origin_id then
+			return reply_str(sethtml(nil, href))
+		end
+
+		if tonumber(map.origin_sw) ~= 1 then
+			return reply_str(sethtml(nil, href))
+		end
+
+		return reply_str(sethtml(map.origin_id, href))
+	end
+	if adtype == "cloud" then
+		local ret, map = get_cloud_config()
+		if not ret then
+			return reply_str(sethtml(nil, href))
+		end
+
+		if map.authtype and map.authtype == 1 and map.value then
+			local a = {}
+			if type(map.value) == "string" then
+					a = js.decode(map.value)
+			else 
+					a = map.value
+			end
+
+			if a and a.force == 1 and a.initid then
+				return reply_str(sethtml(a.initid, href))
+			end
+		end
+	end
+	return reply_str(sethtml(nil, href))
 end
 
 local func = uri_map[uri]
