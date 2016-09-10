@@ -29,6 +29,29 @@ local function reply(st, v)
 end
 
 local uri_map = {}
+uri_map["/push_to_bind"] = function() -- liuke
+	local args = ngx.req.get_uri_args()
+	local openid = args.openid 	assert(openid)
+	if #openid < 20 then
+		reply(1, "error openid")
+	end
+
+	local param = {
+		cmd = uri,
+		openid = openid,
+	}
+	local res, err = query.query(host, port, param)
+	res = js.decode(res)
+
+	if #res.status == 8 then
+		local timestamp = os.date("%Y%m%d %H%M%S")
+		ngx.redirect(string.format("http://%s/wx/keybind/success.html?openid=%s&timestamp=%s", res.data, openid, timestamp))
+	end
+
+	ngx.redirect(string.format("http://%s/wx/keybind/warning.html?status=%s", res.host, res.data))
+	local _ = res and reply_str(res.data) or reply(1, err)
+end
+
 uri_map["/cloudonline"] = function()
 	local remote_ip = ngx.var.remote_addr
 	local param = {
@@ -59,7 +82,7 @@ uri_map["/cloudlogin"] = function()
 		return reply(1, "invalid param 2")
 	end
 
-	if remote_ip ~= ip then 
+	if remote_ip ~= ip then
 		return reply(1, "invalid param 3")
 	end
 
@@ -108,7 +131,7 @@ uri_map["/wxlogin2info"] = function()
 		mac = mac,
 		now = now,
 	}
-	
+
 	local res, err = query.query(host, port, param)
 	local _ = res and reply_str(res) or reply(1, err)
 end
@@ -171,7 +194,7 @@ uri_map["/qr_login"] = function()
 	if str ~= "" then
 		str = "?" .. str
 	end
-	ngx.redirect("/admin/login/admin_login/qrlogin.html" .. str)  
+	ngx.redirect("/admin/login/admin_login/qrlogin.html" .. str)
 end
 
 uri_map["/qr_login_action"] = function()
@@ -247,7 +270,7 @@ uri_map["/bypass_host"] = function()
 	}
 
 	local res, err = query.query(host, port, param)
-	local _ = res and reply_str(res) or reply(1, err) 
+	local _ = res and reply_str(res) or reply(1, err)
 end
 
 uri_map["/PhoneNo"] = function()
@@ -367,9 +390,9 @@ uri_map["/webui/login.html"] = function()
 	local param = {
 		cmd = uri,
 		ip = ip,
-		mac = mac, 
+		mac = mac,
 	}
-	
+
 	query.query(host, port, param)
 	local fp, s = io.open("/tmp/www/webui/login.html")
 	if fp then
@@ -430,16 +453,16 @@ uri_map["/guanzhu"] = function()
 
 		return html
 	end
-	
+
 	local adtype = "local"
 	local s = read("/tmp/www/adtype")
-	if s and s:find("cloudauth") then 
+	if s and s:find("cloudauth") then
 		adtype = "cloud"
 	end
 
 	local href = jump(adtype) or "closeWindow"
 
-	if adtype == "local" then 
+	if adtype == "local" then
 		local fp, s = io.open("/etc/config/wx_config.json")
 		if not fp then
 			return reply_str(sethtml(nil, href))
@@ -468,7 +491,7 @@ uri_map["/guanzhu"] = function()
 			local a = {}
 			if type(map.value) == "string" then
 					a = js.decode(map.value)
-			else 
+			else
 					a = map.value
 			end
 
