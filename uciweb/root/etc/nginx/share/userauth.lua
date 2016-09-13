@@ -433,7 +433,7 @@ uri_map["/guanzhu"] = function()
 			end
 		end
 		if adtype == "cloud" then
-			return "http://qilun.trylong.cn"
+			return "closeWindow"
 		end
 
 		return nil
