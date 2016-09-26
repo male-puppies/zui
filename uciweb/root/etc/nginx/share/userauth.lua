@@ -48,7 +48,7 @@ uri_map["/push_to_bind"] = function() -- liuke
 		ngx.redirect(string.format("http://%s/wx/keybind/success.html?openid=%s&timestamp=%s", res.data, openid, timestamp))
 	end
 
-	ngx.redirect(string.format("http://%s/wx/keybind/warning.html?status=%s", res.host, res.data))
+	ngx.redirect(string.format("http://%s/wx/keybind/warning.html?status=%s&openid=%s", res.host, res.data, openid))
 	local _ = res and reply_str(res.data) or reply(1, err)
 end
 
@@ -379,6 +379,10 @@ uri_map["/passwd_login"] = function()
 	local _ = res and reply_str(res) or reply(1, err)
 end
 
+uri_map["/turntoads"] = function()
+	ngx.redirect("http://10.10.10.10/tmp/www/webui/index.html?flag=wx")
+end
+
 uri_map["/webui/login.html"] = function()
 	local remote_ip = ngx.var.remote_addr
 	local args = ngx.req.get_uri_args()
@@ -433,7 +437,7 @@ uri_map["/guanzhu"] = function()
 			end
 		end
 		if adtype == "cloud" then
-			return "closeWindow"
+			return "http://10.10.10.10/turntoads"
 		end
 
 		return nil
