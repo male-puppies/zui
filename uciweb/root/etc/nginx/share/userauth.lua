@@ -32,6 +32,7 @@ local uri_map = {}
 uri_map["/push_to_bind"] = function() -- liuke
 	local args = ngx.req.get_uri_args()
 	local openid = args.openid 	assert(openid)
+	local host_uri = args.host	assert(host_uri)
 	if #openid < 20 then
 		reply(1, "error openid")
 	end
@@ -39,16 +40,17 @@ uri_map["/push_to_bind"] = function() -- liuke
 	local param = {
 		cmd = uri,
 		openid = openid,
+		host_uri = host_uri,
 	}
 	local res, err = query.query(host, port, param)
 	res = js.decode(res)
 
 	if #res.status == 8 then
 		local timestamp = os.date("%Y%m%d %H%M%S")
-		ngx.redirect(string.format("http://%s/wx/keybind/success.html?openid=%s&timestamp=%s", res.data, openid, timestamp))
+		ngx.redirect(string.format("http://%s/wx/keybind/success.html?openid=%s&timestamp=%s", host_uri, openid, timestamp))
 	end
 
-	ngx.redirect(string.format("http://%s/wx/keybind/warning.html?status=%s&openid=%s", res.host, res.data, openid))
+	ngx.redirect(string.format("http://%s/wx/keybind/warning.html?status=%s&openid=%s", host_uri, res.data, openid))
 	local _ = res and reply_str(res.data) or reply(1, err)
 end
 
