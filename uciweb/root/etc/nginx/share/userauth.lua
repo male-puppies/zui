@@ -382,7 +382,7 @@ uri_map["/passwd_login"] = function()
 end
 
 uri_map["/turntoads"] = function()
-	ngx.redirect("http://10.10.10.10/tmp/www/webui/index.html?flag=wx")
+	ngx.redirect("http://10.10.10.10/tmp/www/webui/index.html?flag=wx&url=http://10.10.10.10/tmp/www/webui/login.html")
 end
 
 uri_map["/webui/login.html"] = function()
