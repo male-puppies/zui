@@ -315,7 +315,7 @@
 		},
 		"wpassword": {
 			method: function(val) {
-				var reg = /^[a-z|0-9|A-Z]{8,32}$/;
+				var reg = /^[a-z0-9A-Z.@#￥%&]{8,32}$/;
 				return (reg.test(val)) ? true : false;
 			},
 			message: "非法格式。输入数字/字母，长度: 8~32个字符。"
