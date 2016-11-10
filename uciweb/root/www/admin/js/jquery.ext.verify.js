@@ -338,10 +338,10 @@
 		},
 		"wpassword": {
 			method: function(val) {
-				var reg = /^[a-z0-9A-Z.@#￥%&]{8,32}$/;
+				var reg = /^[a-z0-9A-Z.@#$%&]{8,32}$/;
 				return (reg.test(val)) ? true : false;
 			},
-			message: "非法格式。输入数字/字母/或者.@#￥%&等特殊字符，长度: 8~32个字符。"
+			message: "非法格式。输入数字/字母/或者.@#$%&等特殊字符，长度: 8~32个字符。"
 		},
 		"upload": {
 			method: function() {
