@@ -493,14 +493,8 @@ uri_map["/guanzhu"] = function()
 			return reply_str(sethtml(nil, href))
 		end
 
-		if map.authtype and map.authtype == 1 and map.value then
-			local a = {}
-			if type(map.value) == "string" then
-					a = js.decode(map.value)
-			else
-					a = map.value
-			end
-
+		if map.authtype and map.authtype:find("1") and map.value then
+			local a = map.value["1"]
 			if a and a.force == 1 and a.initid then
 				return reply_str(sethtml(a.initid, href))
 			end
