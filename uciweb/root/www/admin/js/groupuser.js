@@ -381,7 +381,7 @@ function getMyDate() {
 	if (month < 10) month = "0" + month;
 	if (day < 10) day = "0" + day;
 
-	return year + month + day;
+	return year.toString() + month.toString() + day.toString();//year + month + day;
 }
 
 function getSelected(that) {
