@@ -32,9 +32,14 @@ function initEvents() {
 }
 
 function OnSubmit() {
-	var username = $("#username").val(),
-		password = $("#password").val();
-
+	var username_befor = $("#username").val(),
+		password = $("#password").val(),
+		username='';
+		for( var i= 0 ; i< username_befor.length ; i++) {
+			if(username_befor[i] != ' ') {
+				username+=username_befor[i];
+			}
+		}
 	var obj = {
 		username: username,
 		password: password
