@@ -299,7 +299,10 @@ function DoSave() {
 					initData();
 				},
 				"ffunc": function() {
-					createModalTips("保存失败！" + (d.data ? d.data : ""));
+					switch (d.data){
+						case ("duplicate SSID"):createModalTips("保存失败！SSID已存在！"); break;
+						default:createModalTips("保存失败！" + (d.data ? d.data : ""));
+					}
 				}
 			}
 			cgicallBack(d, "#modal_edit", func);
