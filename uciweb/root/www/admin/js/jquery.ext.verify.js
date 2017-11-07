@@ -239,6 +239,7 @@
 		},
 		"name": {
 			method: function(val) {
+				if (!checkNull(val, this, this.message)) return false;
 				var len = 0;
 				for (var i=0; i<val.length; i++) {
 					var c = val.charCodeAt(i);
@@ -250,7 +251,9 @@
 						len += 3;
 					}
 				}
-				var reg = /^[a-zA-Z0-9-_.\u4e00-\u9fa5]{1,32}$/;
+
+				val = outspacebn(val);
+				reg = /^[a-zA-Z0-9_~!@#$\^<>\s\?\[\]\{\}\-\/\+\.\,\u4e00-\u9fa5]{1,32}$/;
 				var mark = (reg.test(val)) ? true : false;
 				if (len <= 32 && mark) {
 					return true;
@@ -258,7 +261,7 @@
 					return false;
 				}
 			},
-			message:"非法格式。只能包含中文、数字、字母、‘-’、‘.’ 和下划线，不允许空格。长度范围1~32个字符，不超过10个中文。"				
+			message:"非法格式。只能包含中文、数字、字母和特定的字符（包含英文格式下的~!@#$^<>[]{}_-/+.,?)，不允许空格。长度范围1~32个字符，不超过10个中文，一个中文占3个字符。"				
 		},
 		"pwd": {
 			method: function(val) {
@@ -364,7 +367,27 @@
 		}
 		return verify.split(' ');
 	}
-
+	function checkNull(v, o, mes) {
+		if ($.trim(v) === 'null') {
+			o.message = '非法格式，请勿输入"null"。';
+			return false;
+		} else {
+			o.message = mes;
+			return true;
+		}
+	}
+	function outspacebn(str) {//去除前后空格
+        	var reg = /^[\s]+.*?$/,reg1 = /^.*?[\s]+$/;
+        	if(reg.test(str)){
+            		str = str.substring(1,str.length);
+            		outspacebn(str);
+		}else if(reg1.test(str)){
+            		str = str.substring(0,str.length-1);
+            		outspacebn(str);
+        	}else{
+			return str;
+        	}
+    	}
 	var verification = function(doc) {
 		var res = true;
 		if (!doc) doc = "body";

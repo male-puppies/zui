@@ -174,6 +174,7 @@ function edit(that) {
 	getSelected(that);
 	jsonTraversal(nodeEdit[0], jsTravSet);
 	OnEncrypt();
+	OnVlanChanged();
 	set_wlanListAps(nodeEdit[0]);
 }
 
@@ -191,6 +192,7 @@ function set_wlanListAps(wlan){
 		$(".efaps_all input").prop("checked", true);
 		$(".efaps_oth input").prop("checked", false);
 		$(".checkall2").prop("checked", false);
+		$("#vlanid").val("1");
 	}
 
 	cgicall('WLANListAps', obj, function(d) {
@@ -271,6 +273,16 @@ function DoSave() {
 	if (!verification()) return;
 
 	var apArr = [],
+		oSSID = {
+		'enable': "1",
+		'band': 'all',
+		'SSID': '',
+		'encrypt': 'none',
+		'password':'',
+		'hide': "0",
+		'vlanenable': '0',
+		'vlanid': '1'
+		},
 		obj = jsonTraversal(oSSID, jsTravGet),
 		nodes = oTabAps.api().rows().nodes();
 	
@@ -351,6 +363,7 @@ function initEvents() {
 	$("#encrypt").on("change", OnEncrypt);
 	$('[name="efaps"]').on("change", OnEfaps);
 	$(".showlock").on("click", OnShowlock);
+	$("#vlanenable").on("click", OnVlanChanged);
 	$('[data-toggle="tooltip"]').tooltip();
 }
 
@@ -362,10 +375,13 @@ function OnAdd() {
 		'SSID': '',
 		'encrypt': 'none',
 		'password':'',
-		'hide': "0"
+		'hide': "0",
+		'vlanenable': '0',
+		'vlanid': '1'
 	}
 	editAllap = true;
 	jsonTraversal(oSSID, jsTravSet);
+	OnVlanChanged();
 	OnEncrypt();
 	set_wlanListAps();
 }
@@ -427,6 +443,14 @@ function OnShowlock(that) {
 	}
 }
 
+function OnVlanChanged() {
+	var en = $('#vlanenable').prop('checked');
+	if (en) {
+		$('#vlanid').prop('disabled', false);
+	}else{
+		$('#vlanid').prop('disabled', true);
+	};
+}
 function getSelected(that) {
 	nodeEdit = [];
 	if (that) {

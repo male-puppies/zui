@@ -84,7 +84,7 @@
 								<input type="text" id="SSID" class="form-control" verify="name" />
 							</div>
 							<div class="col-xs-3 tip-icons">
-								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="只能包含中文、数字、字母、‘-’、‘.’ 和下划线，不允许空格。长度范围1~32个字符，不超过10个中文。"><i class="icon-question-sign"></i></span>
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="只能输入中文、数字、字母和特定的字符（包含英文格式下的~!@#$^<>[]{}_-/+.,?)，允许空格。长度范围1~32个字符，不超过10个中文，一个中文占3个字符。"><i class="icon-question-sign"></i></span>
 							</div>
 						</div>
 						<div class="form-group clearfix">
@@ -123,6 +123,24 @@
 								<div class="checkbox">
 									<label style="display:block;"><input type="checkbox" id="hide" value="1 0" /></label>
 								</div>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-xs-4 control-label" for="vlanenable">启用VLAN</label>
+							<div class="col-xs-5">
+								<div class="checkbox">
+									<label><input type="checkbox" id="vlanenable" value="1 0" /></label>
+									<span style="position:relative; top:-6px" class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="请在了解vlan功能原理下使用，否则可能导致连接此无线ssid无法正常上网。"><i class="icon-question-sign"></i></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group clearfix">
+							<label class="col-xs-4 control-label" for="vlanid">VLAN ID</label>
+							<div class="col-xs-5">
+								<input type="text" id="vlanid" class="form-control" verify="num 1 4094" />
+							</div>
+							<div class="col-xs-3 tip-icons">
+								<span class="icon-tip" data-toggle="tooltip" data-placement="bottom" title="输入数字1~4094。"><i class="icon-question-sign"></i></span>
 							</div>
 						</div>
 						<div class="form-group clearfix">
